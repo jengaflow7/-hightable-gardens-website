@@ -1,0 +1,10 @@
+/admin/*
+  X-Robots-Tag: noindex, nofollow, noarchive
+  X-Frame-Options: DENY
+  Referrer-Policy: same-origin
+  X-Content-Type-Options: nosniff
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' https: data:; connect-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'
+
+/api/*
+  Cache-Control: no-store
+  X-Content-Type-Options: nosniff
