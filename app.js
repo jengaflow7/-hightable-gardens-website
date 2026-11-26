@@ -56,7 +56,7 @@ if(pg==="home"){
  new IntersectionObserver(function(e,o){if(e[0].isIntersecting){cs.classList.add("go");o.disconnect();if(!still)setTimeout(function(){flip();setInterval(flip,4600)},3200)}},{threshold:.35}).observe(cs);
  $("hcats").innerHTML=C.categories.map(function(c){return '<a href="menu.html#'+c.id+'">'+c.name+"</a>"}).join("");
 }
-/* ---------- menu page: category chips with menu overlay on selected image ----------
+/* ---------- menu page: category chips with menu overlay on selected image ---------- */
 if(pg==="menu"){
  var cats=C.categories,cur=(location.hash||"#"+cats[0].id).slice(1);
  if(!cats.some(function(c){return c.id===cur}))cur=cats[0].id;
