@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Hightable Gardens · Admin</title>
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+<main class="shell">
+  <header class="top"><a href="../" class="brand">Hightable <span>Gardens</span></a><span class="private">PRIVATE CMS</span></header>
+  <section id="login" class="panel login">
+    <p class="eyebrow">OWNER ACCESS</p><h1>Welcome back</h1><p class="muted">Sign in to manage your restaurant website.</p>
+    <form id="loginForm"><label for="password">Admin password</label><input id="password" type="password" autocomplete="current-password" required><button class="primary">Sign in</button><p id="loginMessage" class="message" role="status"></p></form>
+  </section>
+  <section id="workspace" hidden>
+    <div class="welcome"><div><p class="eyebrow">CONTENT MANAGEMENT</p><h1>Website dashboard</h1><p class="muted">Changes saved here are stored in your Cloudflare database.</p></div><button id="logout" class="quiet">Sign out</button></div>
+    <div class="layout">
+      <nav id="nav" class="nav panel" aria-label="Content collections"></nav>
+      <section class="panel editor">
+        <div class="editorHead"><div><p class="eyebrow">MANAGE CONTENT</p><h2 id="sectionTitle">Menu categories</h2></div><button id="newRecord" class="primary small">+ Add new</button></div>
+        <div id="records" class="records"></div>
+        <form id="recordForm" hidden>
+          <input type="hidden" id="recordId">
+          <label for="recordJson">Record content (JSON)</label>
+          <textarea id="recordJson" spellcheck="false" rows="18"></textarea>
+          <p class="hint">Edit the fields in this record. Keep valid JSON. Image fields currently accept an existing image path or a public image URL.</p>
+          <div class="actions"><button type="button" id="cancelEdit" class="quiet">Cancel</button><button class="primary">Save changes</button></div>
+          <p id="saveMessage" class="message" role="status"></p>
+        </form>
+      </section>
+    </div>
+    <p class="footnote">Hightable Gardens CMS · Private administration</p>
+  </section>
+</main>
+<script src="admin.js"></script>
+</body>
+</html>
