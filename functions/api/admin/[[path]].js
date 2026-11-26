@@ -84,6 +84,28 @@ export async function onRequest(context) {
     return json({ ok: true }, 200, { "set-cookie": cookieHeader("", 0) });
   }
 
+  if (path === "public" && request.method === "GET") {
+    const today = new Intl.DateTimeFormat("en-CA", { timeZone: "Africa/Nairobi" }).format(new Date());
+    const result = await env.DB.prepare("SELECT id, collection, data_json, sort_order, active, created_at, updated_at FROM cms_records WHERE active = 1 ORDER BY sort_order ASC, updated_at DESC").all();
+    const records = (result.results || []).map(row => ({
+      id: row.id, collection: row.collection, data: safeJson(row.data_json),
+      sort_order: row.sort_order, active: !!row.active,
+      created_at: row.created_at, updated_at: row.updated_at
+    })).filter(row => {
+      const d = row.data || {};
+      if (d.active === false || d.active === 0) return false;
+      if (row.collection === "events" && d.end_date && String(d.end_date) < today) return false;
+      if (row.collection === "promotions") {
+        if (d.start_date && String(d.start_date) > today) return false;
+        if (d.end_date && String(d.end_date) < today) return false;
+      }
+      return true;
+    });
+    const grouped = {};
+    for (const row of records) (grouped[row.collection] ||= []).push(row);
+    return json({ records: grouped, today });
+  }
+
   if (path === "session" && request.method === "GET") {
     return json({ authenticated: await authenticated(request, env) });
   }
