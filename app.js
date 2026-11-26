@@ -101,19 +101,19 @@ if(pg==="home"){
  fa.src="img/"+C.coin[0][0];fb.src="img/"+C.coin[1%C.coin.length][0];cap.textContent=C.coin[0][1];
  function flip(){var nx=(ci+1)%C.coin.length,hidden=flips%2===0?fb:fa;hidden.src="img/"+C.coin[nx][0];cap.textContent=C.coin[nx][1];deg+=540;coin.style.transform="rotateY("+deg+"deg)";ci=nx;flips++}
  new IntersectionObserver(function(e,o){if(e[0].isIntersecting){cs.classList.add("go");o.disconnect();if(!still)setTimeout(function(){flip();setInterval(flip,4600)},3200)}},{threshold:.35}).observe(cs);
- $("hcats").innerHTML=C.categories.map(function(c){return '<a href="menu.html#'+c.id+'">'+c.name+"</a>"}).join("");
+ $("hcats").innerHTML=C.categories.map(function(c){return '<a href="menu.html#'+encodeURIComponent(c.id)+'">'+cmsText(c.name)+"</a>"}).join("");
 }
 /* ---------- menu page: category chips with menu overlay on selected image ---------- */
 if(pg==="menu"){
  var cats=C.categories,cur=(location.hash||"#"+cats[0].id).slice(1);
  if(!cats.some(function(c){return c.id===cur}))cur=cats[0].id;
- function dish(d){return '<div class="it"><div class="l"><h4>'+d[0]+'</h4><i></i>'+(d[2]?'<b>'+d[2]+'</b>':'')+'</div>'+(d[1]?'<p>'+d[1]+'</p>':'')+'</div>'}
+ function dish(d){return '<div class="it"><div class="l"><h4>'+cmsText(d[0])+'</h4><i></i>'+(d[2]?'<b>'+cmsText(d[2])+'</b>':'')+'</div>'+(d[1]?'<p>'+cmsText(d[1])+'</p>':'')+'</div>'}
  function draw(){
   var c=cats.filter(function(x){return x.id===cur})[0];
-  $('tabs').innerHTML=cats.map(function(x){return '<button class="tab" type="button" role="tab" aria-selected="'+(x.id===cur)+'" data-id="'+x.id+'">'+x.name+'</button>'}).join('');
+  $('tabs').innerHTML=cats.map(function(x){return '<button class="tab" type="button" role="tab" aria-selected="'+(x.id===cur)+'" data-id="'+cmsText(x.id)+'">'+cmsText(x.name)+'</button>'}).join('');
   $('mlist').innerHTML=c.dishes.map(dish).join('');
-  $('menuStage').style.backgroundImage='url("img/'+(c.cover||c.pics[0][0])+'")';
-  $('menuEyebrow').textContent=c.name+' · menu';
+  $('menuStage').style.backgroundImage='url("'+cmsAsset(c.cover||(c.pics[0]&&c.pics[0][0]))+'")';
+  $('menuEyebrow').textContent=cmsText(c.name)+' · menu';
  }
  $('tabs').addEventListener('click',function(e){var id=e.target.getAttribute('data-id');if(id&&cats.some(function(c){return c.id===id})){cur=id;history.replaceState(null,'','#'+id);draw()}});
  draw();
