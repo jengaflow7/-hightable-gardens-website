@@ -26,12 +26,12 @@ function cookieHeader(value, maxAge) {
   return COOKIE + "=" + encodeURIComponent(value) + "; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=" + maxAge;
 }
 async function ensureSchema(db) {
-  await db.prepare(\`CREATE TABLE IF NOT EXISTS cms_admin_sessions (
+  await db.prepare(`CREATE TABLE IF NOT EXISTS cms_admin_sessions (
     token_hash TEXT PRIMARY KEY,
     expires_at INTEGER NOT NULL,
     created_at INTEGER NOT NULL
-  )\`).run();
-  await db.prepare(\`CREATE TABLE IF NOT EXISTS cms_records (
+  )`).run();
+  await db.prepare(`CREATE TABLE IF NOT EXISTS cms_records (
     id TEXT PRIMARY KEY,
     collection TEXT NOT NULL,
     title TEXT NOT NULL DEFAULT '',
@@ -40,7 +40,7 @@ async function ensureSchema(db) {
     active INTEGER NOT NULL DEFAULT 1,
     created_at INTEGER NOT NULL,
     updated_at INTEGER NOT NULL
-  )\`).run();
+  )`).run();
   await db.prepare("CREATE INDEX IF NOT EXISTS idx_cms_records_collection_order ON cms_records(collection, sort_order, updated_at)").run();
 }
 async function authenticated(request, env) {
@@ -142,10 +142,10 @@ export async function onRequest(context) {
     const title = String(body.data.title || body.data.name || body.data.label || "").slice(0, 180);
     const sortOrder = Number.isFinite(Number(body.data.sort_order)) ? Math.trunc(Number(body.data.sort_order)) : 0;
     const active = body.data.active === false || body.data.active === 0 ? 0 : 1;
-    await env.DB.prepare(\`INSERT INTO cms_records(id, collection, title, data_json, sort_order, active, created_at, updated_at)
+    await env.DB.prepare(`INSERT INTO cms_records(id, collection, title, data_json, sort_order, active, created_at, updated_at)
       VALUES(?, ?, ?, ?, ?, ?, ?, ?)
       ON CONFLICT(id) DO UPDATE SET collection=excluded.collection, title=excluded.title,
-      data_json=excluded.data_json, sort_order=excluded.sort_order, active=excluded.active, updated_at=excluded.updated_at\`)
+      data_json=excluded.data_json, sort_order=excluded.sort_order, active=excluded.active, updated_at=excluded.updated_at`)
       .bind(id, collection, title, dataJson, sortOrder, active, now, now).run();
     return json({ ok: true, id });
   }
