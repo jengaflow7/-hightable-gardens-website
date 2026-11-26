@@ -113,7 +113,7 @@ if(pg==="menu"){
   $('tabs').innerHTML=cats.map(function(x){return '<button class="tab" type="button" role="tab" aria-selected="'+(x.id===cur)+'" data-id="'+cmsText(x.id)+'">'+cmsText(x.name)+'</button>'}).join('');
   $('mlist').innerHTML=c.dishes.map(dish).join('');
   $('menuStage').style.backgroundImage='url("'+cmsAsset(c.cover||(c.pics[0]&&c.pics[0][0]))+'")';
-  $('menuEyebrow').textContent=cmsText(c.name)+' · menu';
+  $('menuEyebrow').textContent=c.name+' · menu';
  }
  $('tabs').addEventListener('click',function(e){var id=e.target.getAttribute('data-id');if(id&&cats.some(function(c){return c.id===id})){cur=id;history.replaceState(null,'','#'+id);draw()}});
  draw();
