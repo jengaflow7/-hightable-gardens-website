@@ -120,7 +120,7 @@ if(pg==="menu"){
 }
 /* ---------- gallery ---------- */
 if(pg==="gallery"){
- $("gal").innerHTML=C.photos.map(function(p,i){return '<img src="img/'+p+'" alt="Hightable Gardens photo '+(i+1)+'" loading="lazy">'}).join("");
+ $("gal").innerHTML=C.photos.map(function(p,i){return '<img src="'+cmsAsset(p)+'" alt="Hightable Gardens photo '+(i+1)+'" loading="lazy">'}).join("");
  var play='<span class="pl"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>';
  $("rls").innerHTML=C.videos.map(function(u,i){if(/\.(mp4|webm)(\?|$)/i.test(u))return '<video controls playsinline preload="metadata" src="'+u+'"></video>';
   var cv=C.videoCovers[i%C.videoCovers.length];return '<a class="rl" href="'+u+'" target="_blank" rel="noopener" style="background-image:linear-gradient(180deg,rgba(10,10,10,.25),rgba(10,10,10,.8)),url(img/'+cv+')">'+play+"<b>Watch reel</b><small>on "+(/instagram/.test(u)?"Instagram":"TikTok")+"</small></a>"}).join("");
