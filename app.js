@@ -23,7 +23,7 @@ try{
      return refs.some(function(v){return keys.some(function(k){return String(k).toLowerCase()===v;})});
     }).sort(function(a,b){return (Number((a.data||{}).sort_order)||0)-(Number((b.data||{}).sort_order)||0);});
     var dishes=matched.map(function(item){
-     var x=item.data||{};return {name:x.name||x.title||"",description:x.description||"",price:x.price==null?"":x.price,image:cmsAsset(x.image||x.photo||x.cover),available:x.available!==false&&x.active!==false,featured:!!x.featured};
+     var x=item.data||{};return {name:x.name||x.title||"",description:x.description||"",price:x.price==null?"":x.price,image:cmsAsset(x.image||x.photo||x.cover),available:x.available!==false&&x.active!==false,featured:!!x.featured,showInList:x.showInList!==false,badge:x.badge||{}};
     }).filter(function(dish){return dish.name;});
     if(!dishes.length&&Array.isArray(d.dishes))dishes=d.dishes;
     return {id:key,name:name,cover:cmsAsset(d.background_image||d.cover||d.image),pics:[],dishes:dishes};
@@ -31,7 +31,8 @@ try{
   }
   var photos=(groups.gallery||[]).map(function(row){var d=row.data||{};return cmsAsset(d.image||d.src||d.file)}).filter(Boolean);
   if(photos.length)C.photos=photos;
-  var circles=(groups.circles||[]).map(function(row){var d=row.data||{};return {image:cmsAsset(d.image||d.photo),title:d.title||"",badge:d.badge||{}}}).filter(function(x){return x.image});
+  var homeDishes=items.filter(function(row){var d=row.data||{};return d.homeFeatured===true&&(d.active!==false)&&(d.available!==false)&&(d.image||d.photo||d.cover);}).map(function(row){var d=row.data||{};return {image:cmsAsset(d.image||d.photo||d.cover),title:d.name||d.title||"",badge:d.badge&&d.badge.enabled?d.badge:{enabled:true,text:(d.badge&&d.badge.text)||"Featured",background:(d.badge&&d.badge.background)||"#f5b324",color:(d.badge&&d.badge.color)||"#17130a",shape:(d.badge&&d.badge.shape)||"price-tag",animation:(d.badge&&d.badge.animation)||"wobble"},link:"menu.html#"+encodeURIComponent(d.category_slug||d.category_id||d.category||"")};}).filter(function(x){return x.image;});
+  var circles=homeDishes.length?homeDishes:(groups.circles||[]).map(function(row){var d=row.data||{};return {image:cmsAsset(d.image||d.photo),title:d.title||"",badge:d.badge||{enabled:true,text:"Featured"},link:d.link||""};}).filter(function(x){return x.image;});
   if(circles.length){C.orbit=circles.map(function(x){return x.image});C.orbitDetails=circles;}
  }
 }catch(e){/* Existing cfg.js content remains the fallback if CMS is unavailable. */}
@@ -113,8 +114,8 @@ if(pg==="menu"){
  if(!cats.some(function(c){return c.id===cur}))cur=cats[0].id;
  function escapeMenu(value){return cmsText(value)}
  function featuredDish(raw){
-  var d=Array.isArray(raw)?{name:raw[0],description:raw[1],price:raw[2],image:raw[3]}:(raw||{}),img=d.image||d.photo||d.cover;
-  return '<article class="menu-feature-circle">'+(img?'<img src="'+escapeMenu(cmsAsset(img))+'" alt="'+escapeMenu(d.name||d.title||"Menu dish")+'" loading="lazy">':'<div class="menu-feature-placeholder">Hightable Gardens</div>')+'<h3>'+escapeMenu(d.name||d.title||"")+'</h3></article>';
+  var d=Array.isArray(raw)?{name:raw[0],description:raw[1],price:raw[2],image:raw[3]}:(raw||{}),img=d.image||d.photo||d.cover,b=d.badge||{},badgeText=b.text||"Featured";
+  return '<article class="menu-feature-circle">' +(img?'<img src="'+escapeMenu(cmsAsset(img))+'" alt="'+escapeMenu(d.name||d.title||"Menu dish")+'" loading="lazy">' :'<div class="menu-feature-placeholder">Hightable Gardens</div>')+'<span class="menu-circle-badge" style="background:'+escapeMenu(b.background||"#f5b324")+' ;color:'+escapeMenu(b.color||"#17130a")+'">'+escapeMenu(badgeText)+'</span><h3>'+escapeMenu(d.name||d.title||"")+'</h3></article>';
  }
  function menuListDish(raw){
   var d=Array.isArray(raw)?{name:raw[0],description:raw[1],price:raw[2],image:raw[3]}:(raw||{});
@@ -123,7 +124,7 @@ if(pg==="menu"){
  function draw(){
   var c=cats.filter(function(x){return x.id===cur})[0];
   $('tabs').innerHTML=cats.map(function(x){return '<button class="tab" type="button" role="tab" aria-selected="'+(x.id===cur)+'" data-id="'+escapeMenu(x.id)+'">'+escapeMenu(x.name)+'</button>'}).join('');
-  var dishes=(c.dishes||[]).filter(function(d){return !(d&&typeof d==="object"&&!Array.isArray(d)&&d.available===false);});
+  var dishes=(c.dishes||[]).filter(function(d){return !(d&&typeof d==="object"&&!Array.isArray(d)&&(d.available===false||d.showInList===false));});
   var featured=dishes.filter(function(d){return d&&typeof d==="object"&&!Array.isArray(d)&&d.featured===true;});
   $('menuFeatured').innerHTML=featured.length?'<div class="menu-feature-grid">'+featured.map(featuredDish).join('')+'</div>':'';
   $('mlist').innerHTML=dishes.length?dishes.map(menuListDish).join(''):'<div class="menu-empty">No dishes have been added to this category yet.</div>';
