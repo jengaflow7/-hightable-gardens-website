@@ -354,3 +354,30 @@ header .mn a:active{
  #hdr .mn{padding:12px 14px 16px!important;gap:7px!important}
  #hdr .mn a{padding:9px 12px!important;font-size:10px!important}
 }
+
+
+/* Explore control and its dropdown links: gold text/border hover only */
+#hdr .mb{
+ color:var(--y)!important;
+ border-color:var(--y)!important;
+ transition:color .18s ease,border-color .18s ease,background .18s ease,box-shadow .18s ease!important;
+}
+#hdr .mb:hover,#hdr .mb:focus-visible,#hdr .mb[aria-expanded="true"]{
+ color:var(--y)!important;
+ border-color:var(--y)!important;
+ background:rgba(255,176,20,.09)!important;
+ box-shadow:0 0 0 1px rgba(255,176,20,.12)!important;
+ outline:none!important;
+}
+#hdr .mn a{
+ color:#e4e0d7!important;
+ background:transparent!important;
+ border-color:transparent!important;
+ transition:color .18s ease,border-color .18s ease,background .18s ease!important;
+}
+#hdr .mn a:hover,#hdr .mn a:focus-visible,#hdr .mn a:active{
+ color:var(--y)!important;
+ background:rgba(255,176,20,.08)!important;
+ border-color:var(--y)!important;
+ outline:none!important;
+}
