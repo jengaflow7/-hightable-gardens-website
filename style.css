@@ -381,3 +381,31 @@ header .mn a:active{
  border-color:var(--y)!important;
  outline:none!important;
 }
+
+
+/* Footer navigation hover: slight lift/scale and signature gold accent */
+#ftr .footer-nav a,
+#ftr .footer-contact a{
+ display:inline-block!important;
+ transform:scale(1)!important;
+ transform-origin:left center!important;
+ color:#d5d5d1!important;
+ transition:color .18s ease,transform .18s ease,text-shadow .18s ease!important;
+ cursor:pointer!important;
+}
+#ftr .footer-nav a:hover,
+#ftr .footer-nav a:focus-visible,
+#ftr .footer-nav a:active,
+#ftr .footer-contact a:hover,
+#ftr .footer-contact a:focus-visible,
+#ftr .footer-contact a:active{
+ color:var(--y)!important;
+ transform:scale(1.09)!important;
+ text-shadow:0 0 12px rgba(255,176,20,.22)!important;
+ outline:none!important;
+}
+#ftr .footer-nav a:focus-visible,
+#ftr .footer-contact a:focus-visible{
+ text-decoration:underline!important;
+ text-underline-offset:4px!important;
+}
