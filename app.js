@@ -70,7 +70,7 @@ $("hdr").innerHTML=(HX?'<div class="hs">'+HX.msg+"</div>":"")+'<header><div clas
 document.querySelector(".mb").addEventListener("click",function(){document.querySelector("header").classList.toggle("open")});
 var map="https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(C.mapQuery),tel="tel:+"+C.whatsapp,wa="https://wa.me/"+C.whatsapp;
 var so='<div class="so"><a href="'+C.tiktok+'" target="_blank" rel="noopener" aria-label="TikTok"><svg viewBox="0 0 24 24"><path d="M16.6 5.8A4.3 4.3 0 0 1 15.5 3h-3.1v12.4a2.6 2.6 0 1 1-2.6-2.6c.3 0 .5 0 .8.1V9.7a5.7 5.7 0 1 0 4.9 5.6V9a7.3 7.3 0 0 0 4.2 1.3V7.2a4.3 4.3 0 0 1-3.1-1.4z"/></svg></a><a href="'+C.facebook+'" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M13.5 21v-8h2.7l.4-3.2h-3.1V7.8c0-.9.3-1.5 1.6-1.5h1.7V3.4c-.3 0-1.3-.1-2.4-.1-2.4 0-4.1 1.5-4.1 4.2v2.3H7.5V13h2.8v8h3.2z"/></svg></a><a href="'+C.instagram+'" target="_blank" rel="noopener" aria-label="Instagram"><svg class="s" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor" stroke="none"/></svg></a></div>';
-$("ftr").innerHTML='<div class="fol"><div class="sc">Follow us</div>'+so+'</div><footer>© Hightable Gardens Narok. All rights reserved.</footer><div class="bar"><a href="'+tel+'">Call</a><a href="'+wa+'" target="_blank" rel="noopener">WhatsApp</a><a href="'+map+'" target="_blank" rel="noopener">Directions</a></div>';
+$("ftr").innerHTML='<div class="fol"><div class="sc">Follow us</div>'+so+'</div><footer>© Hightable Gardens Narok. All rights reserved.</footer><div class="footer-links"><a href="careers.html">Careers</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></div><div class="bar"><a href="'+tel+'">Call</a><a href="'+wa+'" target="_blank" rel="noopener">WhatsApp</a><a href="'+map+'" target="_blank" rel="noopener">Directions</a></div>';
 document.querySelectorAll("[data-tel]").forEach(function(a){a.href=tel});document.querySelectorAll("[data-map]").forEach(function(a){a.href=map});
 /* holiday decorations at the page edges */
 if(HX){var hp=document.createElement("div");hp.className="hp";document.body.insertBefore(hp,document.body.firstChild);
@@ -172,7 +172,7 @@ if(pg==="gallery"){
 }
 /* ---------- contact ---------- */
 if(pg==="contact"){
- try{$("d").min=new Date().toISOString().slice(0,10)}catch(e){}
+ try{var kenyaDateParts=new Intl.DateTimeFormat("en-CA",{timeZone:"Africa/Nairobi",year:"numeric",month:"2-digit",day:"2-digit"}).formatToParts(new Date()),kenyaToday=kenyaDateParts.filter(function(p){return p.type==="year"||p.type==="month"||p.type==="day";}).map(function(p){return p.value;}).join("-");$("d").min=kenyaToday}catch(e){}
  $("ct2").href="tel:+"+C.phone2;$("ce").href="mailto:"+C.email;$("ce").lastChild.textContent=C.email;
  var occasion=$("occasion"),customWrap=$("customOccasionWrap"),customInput=$("customOccasion");function syncCustom(){customWrap.hidden=occasion.value!=="Custom";customInput.required=occasion.value==="Custom";}occasion.addEventListener("change",syncCustom);syncCustom();
  $("f").addEventListener("submit",function(e){e.preventDefault();var kind=occasion.value==="Custom"?(customInput.value.trim()||"Custom"):occasion.value;var t="Hello Hightable Gardens, I’d like to reserve a table.\nOccasion: "+kind+"\nName: "+$("n").value+"\nDate: "+$("d").value+"\nTime: "+$("t").value+"\nGuests: "+$("g").value;$("msg").textContent="Opening WhatsApp…";window.open(wa+"?text="+encodeURIComponent(t),"_blank")});
