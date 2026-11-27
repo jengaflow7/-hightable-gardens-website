@@ -16,18 +16,23 @@ try{
   var cats=groups.menu_categories||[],items=groups.menu_items||[];
   if(cats.length){
    C.categories=cats.map(function(row){
-    var d=row.data||{},key=String(d.slug||row.id),matched=items.filter(function(item){
-     var x=item.data||{};return String(x.category_id||"")===String(row.id)||String(x.category_id||"")===key;
-    });
-    var dishes=Array.isArray(d.dishes)?d.dishes:matched.map(function(item){
-     var x=item.data||{};return [x.name||x.title||"",x.description||"",x.price||""];
-    });
-    return {id:key,name:d.name||d.title||"Menu",cover:cmsAsset(d.cover||d.image),pics:[],dishes:dishes};
+    var d=row.data||{},name=String(d.name||d.title||"Menu"),slug=String(d.slug||name.toLowerCase().trim().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"")),key=slug||String(row.id);
+    var keys=[String(row.id),key,name.toLowerCase(),name.toLowerCase().trim().replace(/[^a-z0-9]+/g,"-")];
+    var matched=items.filter(function(item){
+     var x=item.data||{},refs=[x.category_id,x.category,x.category_slug,x.category_name].filter(function(v){return v!==undefined&&v!==null&&String(v).trim()!==""}).map(function(v){return String(v).toLowerCase().trim()});
+     return refs.some(function(v){return keys.some(function(k){return String(k).toLowerCase()===v;})});
+    }).sort(function(a,b){return (Number((a.data||{}).sort_order)||0)-(Number((b.data||{}).sort_order)||0);});
+    var dishes=matched.map(function(item){
+     var x=item.data||{};return {name:x.name||x.title||"",description:x.description||"",price:x.price==null?"":x.price,image:cmsAsset(x.image||x.photo||x.cover),available:x.available!==false&&x.active!==false,featured:!!x.featured,showInList:x.showInList!==false,badge:x.badge||{}};
+    }).filter(function(dish){return dish.name;});
+    if(!dishes.length&&Array.isArray(d.dishes))dishes=d.dishes;
+    return {id:key,name:name,cover:cmsAsset(d.background_image||d.cover||d.image),pics:[],dishes:dishes};
    });
   }
   var photos=(groups.gallery||[]).map(function(row){var d=row.data||{};return cmsAsset(d.image||d.src||d.file)}).filter(Boolean);
   if(photos.length)C.photos=photos;
-  var circles=(groups.circles||[]).map(function(row){var d=row.data||{};return {image:cmsAsset(d.image||d.photo),title:d.title||"",badge:d.badge||{}}}).filter(function(x){return x.image});
+  var homeDishes=items.filter(function(row){var d=row.data||{};return d.homeFeatured===true&&(d.active!==false)&&(d.available!==false)&&(d.image||d.photo||d.cover);}).map(function(row){var d=row.data||{};return {image:cmsAsset(d.image||d.photo||d.cover),title:d.name||d.title||"",badge:d.badge&&d.badge.enabled?d.badge:{enabled:true,text:(d.badge&&d.badge.text)||"Featured",background:(d.badge&&d.badge.background)||"#f5b324",color:(d.badge&&d.badge.color)||"#17130a",shape:(d.badge&&d.badge.shape)||"price-tag",animation:(d.badge&&d.badge.animation)||"wobble"},link:"menu.html#"+encodeURIComponent(d.category_slug||d.category_id||d.category||"")};}).filter(function(x){return x.image;});
+  var circles=homeDishes.length?homeDishes:(groups.circles||[]).map(function(row){var d=row.data||{};return {image:cmsAsset(d.image||d.photo),title:d.title||"",badge:Object.assign({},d.badge||{},{enabled:true,text:(d.badge&&d.badge.text)||"Featured"}),link:d.link||""};}).filter(function(x){return x.image;});
   if(circles.length){C.orbit=circles.map(function(x){return x.image});C.orbitDetails=circles;}
  }
 }catch(e){/* Existing cfg.js content remains the fallback if CMS is unavailable. */}
@@ -103,16 +108,28 @@ if(pg==="home"){
  new IntersectionObserver(function(e,o){if(e[0].isIntersecting){cs.classList.add("go");o.disconnect();if(!still)setTimeout(function(){flip();setInterval(flip,4600)},3200)}},{threshold:.35}).observe(cs);
  $("hcats").innerHTML=C.categories.map(function(c){return '<a href="menu.html#'+encodeURIComponent(c.id)+'">'+cmsText(c.name)+"</a>"}).join("");
 }
-/* ---------- menu page: category chips with menu overlay on selected image ---------- */
+/* ---------- menu page: chips, optional featured circles, complete priced list ---------- */
 if(pg==="menu"){
  var cats=C.categories,cur=(location.hash||"#"+cats[0].id).slice(1);
  if(!cats.some(function(c){return c.id===cur}))cur=cats[0].id;
- function dish(d){return '<div class="it"><div class="l"><h4>'+cmsText(d[0])+'</h4><i></i>'+(d[2]?'<b>'+cmsText(d[2])+'</b>':'')+'</div>'+(d[1]?'<p>'+cmsText(d[1])+'</p>':'')+'</div>'}
+ function escapeMenu(value){return cmsText(value)}
+ function featuredDish(raw){
+  var d=Array.isArray(raw)?{name:raw[0],description:raw[1],price:raw[2],image:raw[3]}:(raw||{}),img=d.image||d.photo||d.cover,b=d.badge||{},badgeText=b.text||"Featured";
+  return '<article class="menu-feature-circle">' +(img?'<img src="'+escapeMenu(cmsAsset(img))+'" alt="'+escapeMenu(d.name||d.title||"Menu dish")+'" loading="lazy">' :'<div class="menu-feature-placeholder">Hightable Gardens</div>')+'<span class="menu-circle-badge" style="background:'+escapeMenu(b.background||"#f5b324")+' ;color:'+escapeMenu(b.color||"#17130a")+'">'+escapeMenu(badgeText)+'</span><h3>'+escapeMenu(d.name||d.title||"")+'</h3></article>';
+ }
+ function menuListDish(raw){
+  var d=Array.isArray(raw)?{name:raw[0],description:raw[1],price:raw[2],image:raw[3]}:(raw||{});
+  return '<article class="it"><div class="l"><h4>'+escapeMenu(d.name||d.title||"")+'</h4><i></i><b>'+(d.price!==undefined&&d.price!==null&&String(d.price)!==""?'KSh '+escapeMenu(d.price):'')+'</b></div>'+(d.description?'<p>'+escapeMenu(d.description)+'</p>':'')+'</article>';
+ }
  function draw(){
   var c=cats.filter(function(x){return x.id===cur})[0];
-  $('tabs').innerHTML=cats.map(function(x){return '<button class="tab" type="button" role="tab" aria-selected="'+(x.id===cur)+'" data-id="'+cmsText(x.id)+'">'+cmsText(x.name)+'</button>'}).join('');
-  $('mlist').innerHTML=c.dishes.map(dish).join('');
-  $('menuStage').style.backgroundImage='url("'+cmsAsset(c.cover||(c.pics[0]&&c.pics[0][0]))+'")';
+  $('tabs').innerHTML=cats.map(function(x){return '<button class="tab" type="button" role="tab" aria-selected="'+(x.id===cur)+'" data-id="'+escapeMenu(x.id)+'">'+escapeMenu(x.name)+'</button>'}).join('');
+  var dishes=(c.dishes||[]).filter(function(d){return !(d&&typeof d==="object"&&!Array.isArray(d)&&(d.available===false||d.showInList===false));});
+  var featured=dishes.filter(function(d){return d&&typeof d==="object"&&!Array.isArray(d)&&d.featured===true;});
+  $('menuFeatured').innerHTML=featured.length?'<div class="menu-feature-grid">'+featured.map(featuredDish).join('')+'</div>':'';
+  $('mlist').innerHTML=dishes.length?dishes.map(menuListDish).join(''):'<div class="menu-empty">No dishes have been added to this category yet.</div>';
+  var bg=c.background||c.background_image||c.cover;
+  $('menuStage').style.backgroundImage=bg?'url("'+cmsAsset(bg)+'")':'';
   $('menuEyebrow').textContent=c.name+' · menu';
  }
  $('tabs').addEventListener('click',function(e){var id=e.target.getAttribute('data-id');if(id&&cats.some(function(c){return c.id===id})){cur=id;history.replaceState(null,'','#'+id);draw()}});

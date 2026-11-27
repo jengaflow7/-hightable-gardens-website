@@ -23,8 +23,8 @@
         <div id="records" class="records"></div>
         <form id="recordForm" hidden>
           <input type="hidden" id="recordId">
-          <label for="recordJson">Record content (JSON)</label>
-          <textarea id="recordJson" spellcheck="false" rows="18"></textarea>
+          <div id="structuredEditor" class="structured"></div><button type="button" id="advancedToggle" class="quiet" hidden>Advanced JSON</button><label id="jsonLabel" for="recordJson" hidden>Record content (JSON)</label>
+          <textarea id="recordJson" spellcheck="false" rows="18" hidden></textarea>
           <p class="hint">Edit the fields in this record. Keep valid JSON. Image fields currently accept an existing image path or a public image URL.</p>
           <div class="actions"><button type="button" id="cancelEdit" class="quiet">Cancel</button><button class="primary">Save changes</button></div>
           <p id="saveMessage" class="message" role="status"></p>
