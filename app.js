@@ -107,19 +107,26 @@ if(pg==="home"){
  new IntersectionObserver(function(e,o){if(e[0].isIntersecting){cs.classList.add("go");o.disconnect();if(!still)setTimeout(function(){flip();setInterval(flip,4600)},3200)}},{threshold:.35}).observe(cs);
  $("hcats").innerHTML=C.categories.map(function(c){return '<a href="menu.html#'+encodeURIComponent(c.id)+'">'+cmsText(c.name)+"</a>"}).join("");
 }
-/* ---------- menu page: category chips with menu overlay on selected image ---------- */
+/* ---------- menu page: chips, optional featured circles, complete priced list ---------- */
 if(pg==="menu"){
  var cats=C.categories,cur=(location.hash||"#"+cats[0].id).slice(1);
  if(!cats.some(function(c){return c.id===cur}))cur=cats[0].id;
- function dish(raw,c){
+ function escapeMenu(value){return cmsText(value)}
+ function featuredDish(raw){
   var d=Array.isArray(raw)?{name:raw[0],description:raw[1],price:raw[2],image:raw[3]}:(raw||{}),img=d.image||d.photo||d.cover;
-  return '<article class="dish-circle'+(d.featured?' featured':'')+'" tabindex="0">'+(img?'<img class="dish-photo" src="'+cmsText(cmsAsset(img))+'" alt="'+cmsText(d.name||d.title||"Menu dish")+'" loading="lazy">':'<div class="dish-photo dish-placeholder"><span>Hightable<br>Gardens</span></div>')+'<div class="dish-caption"><h3>'+cmsText(d.name||d.title||"")+'</h3><div class="dish-overlay">'+(d.description?'<p>'+cmsText(d.description)+'</p>':'')+(d.price!==undefined&&d.price!==null&&String(d.price)!==""?'<strong>KSh '+cmsText(d.price)+'</strong>':'')+'</div></div></article>';
+  return '<article class="menu-feature-circle">'+(img?'<img src="'+escapeMenu(cmsAsset(img))+'" alt="'+escapeMenu(d.name||d.title||"Menu dish")+'" loading="lazy">':'<div class="menu-feature-placeholder">Hightable Gardens</div>')+'<h3>'+escapeMenu(d.name||d.title||"")+'</h3></article>';
+ }
+ function menuListDish(raw){
+  var d=Array.isArray(raw)?{name:raw[0],description:raw[1],price:raw[2],image:raw[3]}:(raw||{});
+  return '<article class="it"><div class="l"><h4>'+escapeMenu(d.name||d.title||"")+'</h4><i></i><b>'+(d.price!==undefined&&d.price!==null&&String(d.price)!==""?'KSh '+escapeMenu(d.price):'')+'</b></div>'+(d.description?'<p>'+escapeMenu(d.description)+'</p>':'')+'</article>';
  }
  function draw(){
   var c=cats.filter(function(x){return x.id===cur})[0];
-  $('tabs').innerHTML=cats.map(function(x){return '<button class="tab" type="button" role="tab" aria-selected="'+(x.id===cur)+'" data-id="'+cmsText(x.id)+'">'+cmsText(x.name)+'</button>'}).join('');
+  $('tabs').innerHTML=cats.map(function(x){return '<button class="tab" type="button" role="tab" aria-selected="'+(x.id===cur)+'" data-id="'+escapeMenu(x.id)+'">'+escapeMenu(x.name)+'</button>'}).join('');
   var dishes=(c.dishes||[]).filter(function(d){return !(d&&typeof d==="object"&&!Array.isArray(d)&&d.available===false);});
-  $('mlist').innerHTML=dishes.length?dishes.map(function(d){return dish(d,c)}).join(''):'<div class="menu-empty">No dishes have been added to this category yet.</div>';
+  var featured=dishes.filter(function(d){return d&&typeof d==="object"&&!Array.isArray(d)&&d.featured===true;});
+  $('menuFeatured').innerHTML=featured.length?'<div class="menu-feature-grid">'+featured.map(featuredDish).join('')+'</div>':'';
+  $('mlist').innerHTML=dishes.length?dishes.map(menuListDish).join(''):'<div class="menu-empty">No dishes have been added to this category yet.</div>';
   var bg=c.background||c.background_image||c.cover;
   $('menuStage').style.backgroundImage=bg?'url("'+cmsAsset(bg)+'")':'';
   $('menuEyebrow').textContent=c.name+' · menu';
