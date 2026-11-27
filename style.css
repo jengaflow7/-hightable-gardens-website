@@ -433,3 +433,30 @@ header .mn a:active{
  #hdr header .lg img{width:54px!important;height:54px!important}
  #hdr .header-actions .bt{padding:8px 6px!important;font-size:7px!important}
 }
+
+
+/* About section only: chalk-written heading and image carousel */
+#about .about-title{color:var(--y)!important}
+#about .about-title-wrap{position:relative;display:inline-block}
+#about .about-title-text{display:inline-block;color:var(--y)!important}
+#about .about-chalk{position:absolute;left:0;top:48%;width:13px;height:5px;border-radius:3px;background:var(--y);box-shadow:0 0 5px rgba(245,179,36,.65);opacity:0;transform:translateX(0) rotate(-22deg);pointer-events:none}
+#about.about-title-writing .about-title-text{clip-path:inset(0 100% 0 0);animation:aboutChalkWrite 2.1s steps(32,end) forwards}
+#about.about-title-writing .about-chalk{opacity:1;animation:aboutChalkMove 2.1s linear forwards,aboutChalkFade .25s 2.1s forwards}
+#about.about-title-written .about-title-text{clip-path:none}
+@keyframes aboutChalkWrite{to{clip-path:inset(0 0 0 0)}}
+@keyframes aboutChalkMove{0%{left:0}100%{left:100%}}
+@keyframes aboutChalkFade{to{opacity:0}}
+#about .about-carousel{position:relative;width:min(100%,430px);aspect-ratio:1;margin:0 auto;display:flex;align-items:center;justify-content:center}
+#about .about-image-frame{position:absolute;inset:0;border-radius:50%;overflow:hidden;border:6px solid rgba(255,255,255,.14);box-shadow:0 26px 60px rgba(0,0,0,.55);background:#111;transition:opacity .18s ease,transform .3s ease}
+#about .about-image-frame img{width:100%;height:100%;object-fit:cover;border-radius:50%;cursor:grab;user-select:none;-webkit-user-drag:none;touch-action:pan-y}
+#about .about-image-frame.about-leaving{opacity:.2;transform:scale(.96)}
+#about .about-image-frame.about-enter-left{animation:aboutSlideLeft .35s ease both}
+#about .about-image-frame.about-enter-right{animation:aboutSlideRight .35s ease both}
+@keyframes aboutSlideLeft{from{opacity:.45;transform:translateX(-22px)}to{opacity:1;transform:translateX(0)}}
+@keyframes aboutSlideRight{from{opacity:.45;transform:translateX(22px)}to{opacity:1;transform:translateX(0)}}
+#about .about-arrow{position:absolute;z-index:3;top:50%;transform:translateY(-50%);width:42px;height:42px;border-radius:50%;border:1px solid var(--y);background:rgba(20,23,25,.88);color:var(--y);font:500 25px/1 var(--n);display:grid;place-items:center;cursor:pointer;transition:background .18s,color .18s,transform .18s}
+#about .about-arrow:hover,#about .about-arrow:focus-visible{background:var(--y);color:#17130a;transform:translateY(-50%) scale(1.08)}
+#about .about-prev{left:-15px}#about .about-next{right:-15px}
+#about .about-carousel-status{text-align:center;font-size:11px;color:var(--m);margin:12px 0 0}
+@media(max-width:860px){#about .about-carousel{width:min(78vw,360px)}#about .about-prev{left:-8px}#about .about-next{right:-8px}}
+@media(prefers-reduced-motion:reduce){#about.about-title-writing .about-title-text{clip-path:none;animation:none}#about.about-title-writing .about-chalk{display:none}#about .about-image-frame{transition:none}#about .about-arrow{transition:none}}
