@@ -9,3 +9,4 @@
 .structured .field textarea[data-key=description]{min-height:115px}
 
 .cms-image-preview{display:block;width:100%;max-height:180px;object-fit:cover;border-radius:8px;border:1px solid var(--line);margin-top:8px}.cms-image-preview[hidden]{display:none}
+.cms-upload-button{margin-top:8px;display:inline-flex;align-items:center;gap:8px}.cms-upload-button:disabled{opacity:.6;cursor:wait}.cms-upload-status{display:block;margin-top:6px;color:var(--muted,#777);font-size:12px;line-height:1.45}
