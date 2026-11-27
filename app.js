@@ -35,7 +35,7 @@ try{
   var circles=homeDishes.length?homeDishes:(groups.circles||[]).map(function(row){var d=row.data||{};return {image:cmsAsset(d.image||d.photo),title:d.title||"",badge:Object.assign({},d.badge||{},{enabled:true,text:(d.badge&&d.badge.text)||"Featured"}),link:d.link||""};}).filter(function(x){return x.image;});
   if(circles.length){C.orbit=circles.map(function(x){return x.image});C.orbitDetails=circles;}
   var aboutRows=(groups.homepage_content||[]).filter(function(row){return String((row.data||{}).section||"").toLowerCase()==="about";});
-  if(aboutRows.length){var ad=aboutRows[0].data||{};C.aboutContent={title:ad.title||"About Hightable",subtitle:ad.subtitle||"Where memories are made",body:ad.body||""};C.aboutFeatureImage=cmsAsset(ad.image||"");var rawAbout=Array.isArray(ad.gallery_images)?ad.gallery_images:String(ad.gallery_images||"").split(/[\n,]+/);C.aboutImages=rawAbout.map(cmsAsset).filter(Boolean);}
+  if(aboutRows.length){var ad=aboutRows[0].data||{};C.aboutContent={title:ad.title||"About Hightable",subtitle:ad.subtitle||"Where memories are made",body:ad.body||""};C.aboutFeatureImage=cmsAsset(ad.image||"");var rawAbout=Array.isArray(ad.gallery_images)?ad.gallery_images:String(ad.gallery_images||"").split(/[\n,]+/);C.aboutImages=[ad.image].concat(rawAbout).map(cmsAsset).filter(Boolean).filter(function(src,i,arr){return arr.indexOf(src)===i;});}
  }
 }catch(e){/* Existing cfg.js content remains the fallback if CMS is unavailable. */}
 var $=function(i){return document.getElementById(i)},pg=document.body.getAttribute("data-page"),still=matchMedia("(prefers-reduced-motion: reduce)").matches;
