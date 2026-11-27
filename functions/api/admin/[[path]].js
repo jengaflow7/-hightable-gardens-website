@@ -1,7 +1,7 @@
 const COOKIE = "hightable_admin";
 const SESSION_HOURS = 12;
 const COLLECTIONS = new Set([
-  "menu_categories", "menu_items", "events", "promotions",
+  "menu_categories", "menu_items", "events", "promotions", "careers",
   "gallery", "homepage_content", "site_settings", "circles", "theme_settings"
 ]);
 
