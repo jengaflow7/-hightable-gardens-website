@@ -265,3 +265,39 @@ header .w{height:78px;gap:18px}header .lg{justify-self:center}header .mb{display
 @keyframes packedBasketPop{0%,43%{opacity:0;transform:translateY(35px) rotate(-8deg) scale(.5)}50%{opacity:1;transform:translateY(-8px) rotate(8deg) scale(1.12)}54%{transform:translateY(0) rotate(-5deg) scale(1)}60%{opacity:1;transform:translateY(-3px) rotate(3deg) scale(1.04)}70%{opacity:1;transform:translateY(0) rotate(0) scale(1)}82%{opacity:0;transform:translateY(20px) rotate(8deg) scale(.85)}100%{opacity:0;transform:translateY(20px) scale(.8)}}
 @media(max-width:700px){.dl::before{font-size:54px;top:35%}.dl::after{font-size:38px;bottom:12px;left:12px}}
 @media(prefers-reduced-motion:reduce){.dl::before,.dl::after{animation:none!important;opacity:0!important;transform:none!important}}
+
+/* Cinematic delivery story: faceless rider silhouette, then Narok route map */
+.dl{position:relative;overflow:hidden}
+.dl::before{
+ content:"";position:absolute;left:-38%;top:24%;width:clamp(210px,32vw,360px);height:clamp(120px,20vw,220px);
+ background-repeat:no-repeat;background-position:center;background-size:contain;
+ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 420 220'%3E%3C!-- side-view scooter and rider, deliberately faceless --%3E%3Cg fill='%23d9d0b7' stroke='%23171918' stroke-width='5' stroke-linejoin='round'%3E%3Ccircle cx='92' cy='175' r='37' fill='%23191d1d' stroke='%23c7a45b' stroke-width='4'/%3E%3Ccircle cx='330' cy='175' r='37' fill='%23191d1d' stroke='%23c7a45b' stroke-width='4'/%3E%3Ccircle cx='92' cy='175' r='17' fill='%23c5c8c4'/%3E%3Ccircle cx='330' cy='175' r='17' fill='%23c5c8c4'/%3E%3Cpath d='M92 175L142 134L198 164L330 175L302 113L258 113L220 148L180 146L160 175Z' fill='%23252b29'/%3E%3Cpath d='M225 151L265 106L300 106L330 175L252 175Z' fill='%23333b37'/%3E%3Cpath d='M182 141L232 141L252 154L216 162Z' fill='%23d0b26b'/%3E%3Cpath d='M140 136L173 121L212 124L231 142L208 156L164 151Z' fill='%232b3431'/%3E%3Cpath d='M165 121L143 89L170 73L198 90L205 124Z' fill='%232b3431'/%3E%3Cpath d='M151 90L139 69L149 52L177 47L197 62L196 82L174 91Z' fill='%231e2524'/%3E%3Cpath d='M145 64Q143 38 169 33Q193 32 199 57L191 69L151 72Z' fill='%23c7a45b'/%3E%3Cpath d='M175 95L214 108L230 137L214 145L197 123L158 111Z' fill='%232a3531'/%3E%3Cpath d='M158 111L137 145L120 148L112 135L136 101Z' fill='%232a3531'/%3E%3Cpath d='M202 126L218 145L214 158L193 157L181 140Z' fill='%23c7a45b'/%3E%3Cpath d='M137 146L150 151L142 167L123 165Z' fill='%23d9d0b7'/%3E%3Cpath d='M200 158L224 158L230 172L210 178L194 170Z' fill='%23d9d0b7'/%3E%3Cpath d='M251 112L300 112L302 139L251 139Z' fill='%23c7a45b'/%3E%3Cpath d='M257 116L296 116L296 135L257 135Z' fill='%231a211f'/%3E%3Ctext x='276' y='128' font-family='Arial' font-size='8' text-anchor='middle' fill='%23e5d5ac'%3EHIGHTABLE%3C/text%3E%3C/g%3E%3C/svg%3E");
+ filter:drop-shadow(0 9px 9px rgba(0,0,0,.4));opacity:0;z-index:1;
+ animation:dlRiderStory 10s ease-in-out infinite;pointer-events:none
+}
+.dl::after{
+ content:"";position:absolute;left:8%;top:10%;width:84%;height:80%;border-radius:12px;
+ background-color:rgba(15,21,23,.4);
+ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 360'%3E%3Crect width='600' height='360' fill='%232a3634'/%3E%3Cg stroke='%23c7b991' stroke-opacity='.28' stroke-width='3' fill='none'%3E%3Cpath d='M-20 60L100 15L160 80L255 20L360 90L440 30L620 120M-10 150L90 120L155 185L250 145L330 205L450 150L610 230M-20 280L80 240L160 310L260 255L350 320L470 260L610 340M55-10L40 90L95 180L80 330M190-20L180 100L230 210L200 370M330-20L310 80L360 180L340 360M470-20L455 90L505 200L485 360'/%3E%3C/g%3E%3Cg stroke='%23d6bd78' stroke-width='7' fill='none' stroke-linecap='round'%3E%3Cpath d='M80 285Q140 230 215 245T325 170T440 105' stroke-dasharray='11 10'/%3E%3C/g%3E%3Cg transform='translate(440 105)'%3E%3Cpath d='M0 0C-25 0-45 20-45 45C-45 78 0 130 0 130S45 78 45 45C45 20 25 0 0 0Z' fill='%23c94e40'/%3E%3Ccircle cx='0' cy='43' r='16' fill='%23f4e4c1'/%3E%3C/g%3E%3Ctext x='28' y='40' fill='%23e8d8b0' font-size='22' font-family='Arial' letter-spacing='4'%3ENAROK%3C/text%3E%3C/svg%3E");
+ background-position:center;background-size:cover;background-repeat:no-repeat;
+ border:1px solid rgba(220,190,120,.35);box-shadow:0 12px 32px rgba(0,0,0,.35);
+ opacity:0;transform:translateY(12px) scale(.96);z-index:1;
+ animation:dlMapStory 10s ease-in-out infinite;pointer-events:none
+}
+.dl .w{position:relative;z-index:2}
+@keyframes dlRiderStory{
+ 0%,5%{opacity:0;transform:translateX(0) scale(.82)}
+ 12%{opacity:1;transform:translateX(12%) scale(1)}
+ 32%{opacity:1;transform:translateX(55%) scale(1)}
+ 43%,49%{opacity:0;transform:translateX(145%) scale(.96)}
+ 50%,100%{opacity:0;transform:translateX(145%) scale(.96)}
+}
+@keyframes dlMapStory{
+ 0%,45%{opacity:0;transform:translateY(16px) scale(.95)}
+ 53%{opacity:.2;transform:translateY(5px) scale(.98)}
+ 63%{opacity:.9;transform:translateY(0) scale(1)}
+ 70%,92%{opacity:1;transform:translateY(0) scale(1)}
+ 100%{opacity:0;transform:translateY(-6px) scale(1.02)}
+}
+@media(max-width:700px){.dl::before{width:220px;height:125px;left:-45%;top:32%}.dl::after{left:5%;top:18%;width:90%;height:64%}}
+@media(prefers-reduced-motion:reduce){.dl::before,.dl::after{animation:none!important;opacity:0!important}}
