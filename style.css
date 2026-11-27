@@ -575,3 +575,42 @@ header .mn a:active{
   #about.about-title-writing .about-title-text{animation:none;clip-path:none}
   #about.about-title-writing .about-chalk{display:none}
 }
+
+
+/* About slideshow: gentle classical cross-fade and hairline frame */
+#about .about-image-frame{
+  border-width:1px!important;
+  border-color:rgba(224,190,120,.62)!important;
+  box-shadow:0 14px 34px rgba(0,0,0,.48)!important;
+  transition:opacity .48s ease-in-out,filter .65s ease-in-out!important;
+}
+#about .about-image-frame img{transition:opacity .65s ease-in-out!important}
+#about .about-image-frame.about-leaving{
+  opacity:0!important;
+  filter:sepia(.12) contrast(1.02)!important;
+  transform:none!important;
+}
+#about .about-image-frame.about-enter-left,
+#about .about-image-frame.about-enter-right{
+  animation:aboutSoftBlink .85s ease-in-out both!important;
+  filter:none!important;
+  box-shadow:0 14px 34px rgba(0,0,0,.48)!important;
+}
+@keyframes aboutSoftBlink{
+  0%{opacity:0;filter:brightness(1.12)}
+  38%{opacity:.45;filter:brightness(1.05)}
+  100%{opacity:1;filter:brightness(1)}
+}
+@media(max-width:700px){
+  #about .about-image-frame{
+    border-width:1px!important;
+    border-color:rgba(190,151,91,.72)!important;
+    box-shadow:0 12px 28px rgba(0,0,0,.44)!important;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  #about .about-image-frame,
+  #about .about-image-frame img{transition:none!important}
+  #about .about-image-frame.about-enter-left,
+  #about .about-image-frame.about-enter-right{animation:none!important;opacity:1!important}
+}
