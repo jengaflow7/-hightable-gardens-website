@@ -227,3 +227,6 @@ header.open .mn{display:block}.mn{position:absolute;left:0;right:0;top:100%;back
 .home-featured-circle span{display:block;margin-top:9px;color:#e8d9ad;font:400 21px var(--sc)}.home-featured-empty{text-align:center;color:var(--m);font-size:13px}
 .menu-feature-circle{display:block;text-decoration:none;color:inherit;cursor:pointer;transition:transform .25s}.menu-feature-circle:hover{transform:translateY(-4px)}.menu-feature-circle:focus-visible{outline:2px solid var(--y);outline-offset:5px;border-radius:12px}
 @media(max-width:700px){.home-featured-circle{width:min(145px,42vw)}.home-featured-circle span{font-size:18px}}
+
+/* Premium reservation occasion controls */
+#book form select,#book form input{width:100%;min-height:48px;padding:12px 14px;border:1px solid var(--ln);border-radius:10px;background:rgba(15,18,21,.82);color:var(--ink);font:400 14px var(--n)}#book form select:focus,#book form input:focus{outline:2px solid var(--y);outline-offset:2px}#customOccasionWrap[hidden]{display:none}
