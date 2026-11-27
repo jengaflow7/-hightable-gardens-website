@@ -90,6 +90,9 @@ if(pg==="home"){
    var tag=document.createElement("span");tag.className="orbit-badge "+(b.shape||"price-tag")+" "+(b.animation==="shake"?"badge-shake":b.animation==="wobble"?"badge-wobble":"");
    tag.textContent=String(b.text);tag.style.background=b.background||"#f5b324";tag.style.color=b.color||"#17130a";
    if(b.borderColor)tag.style.borderColor=b.borderColor;
+   if(b.width)tag.style.width=Number(b.width)+"px";
+   if(b.height)tag.style.height=Number(b.height)+"px";
+   if(b.fontSize)tag.style.fontSize=Number(b.fontSize)+"px";
    if(b.rotation!==undefined)tag.style.setProperty("--badge-rotation",Number(b.rotation)+"deg");
    if(b.offsetX!==undefined)tag.style.right="calc(4% + "+Number(b.offsetX)+"px)";
    if(b.offsetY!==undefined)tag.style.top="calc(-2% + "+Number(b.offsetY)+"px)";
@@ -115,7 +118,7 @@ if(pg==="menu"){
  function escapeMenu(value){return cmsText(value)}
  function featuredDish(raw){
   var d=Array.isArray(raw)?{name:raw[0],description:raw[1],price:raw[2],image:raw[3]}:(raw||{}),img=d.image||d.photo||d.cover,b=d.badge||{},badgeText=b.text||"Featured";
-  return '<article class="menu-feature-circle">' +(img?'<img src="'+escapeMenu(cmsAsset(img))+'" alt="'+escapeMenu(d.name||d.title||"Menu dish")+'" loading="lazy">' :'<div class="menu-feature-placeholder">Hightable Gardens</div>')+'<span class="menu-circle-badge" style="background:'+escapeMenu(b.background||"#f5b324")+' ;color:'+escapeMenu(b.color||"#17130a")+'">'+escapeMenu(badgeText)+'</span><h3>'+escapeMenu(d.name||d.title||"")+'</h3></article>';
+  return '<article class="menu-feature-circle">' +(img?'<img src="'+escapeMenu(cmsAsset(img))+'" alt="'+escapeMenu(d.name||d.title||"Menu dish")+'" loading="lazy">' :'<div class="menu-feature-placeholder">Hightable Gardens</div>')+'<span class="menu-circle-badge '+escapeMenu(b.shape||"price-tag")+' '+escapeMenu(b.animation||"")+'" style="background:'+escapeMenu(b.background||"#f5b324")+' ;color:'+escapeMenu(b.color||"#17130a")+';'+(b.width?'width:'+Number(b.width)+'px;':'')+(b.height?'height:'+Number(b.height)+'px;':'')+(b.fontSize?'font-size:'+Number(b.fontSize)+'px;':'')+(b.offsetX?'right:calc(4% + '+Number(b.offsetX)+'px);':'')+(b.offsetY?'top:calc(4% + '+Number(b.offsetY)+'px);':'')+'">'+escapeMenu(badgeText)+'</span><h3>'+escapeMenu(d.name||d.title||"")+'</h3></article>';
  }
  function menuListDish(raw){
   var d=Array.isArray(raw)?{name:raw[0],description:raw[1],price:raw[2],image:raw[3]}:(raw||{});
