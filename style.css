@@ -242,26 +242,3 @@ header.open .mn{display:block}.mn{position:absolute;left:0;right:0;top:100%;back
 
 /* Reservation form: image backdrop with a lower frosted-glass detail card */
 #book{position:relative;isolation:isolate;overflow:hidden;padding:clamp(18px,3vw,34px);border-radius:20px;border:1px solid rgba(245,179,36,.22);background:linear-gradient(180deg,rgba(10,12,13,.12),rgba(10,12,13,.5)),url("img/booth.jpg") center/cover;box-shadow:0 22px 50px #0005}#book::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,7,8,.16),rgba(6,7,8,.48));backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);z-index:-1}#book>h2,#book>p,#book>form{position:relative;z-index:1}#book form{margin-top:22px;padding:clamp(14px,2vw,24px);border-radius:15px;background:rgba(12,14,15,.64);border:1px solid rgba(255,255,255,.18);box-shadow:0 10px 35px #0004;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}#book form label{color:#e5d6b4}#book form input,#book form select{background:rgba(9,10,11,.68);border-color:#ffffff30}@media(max-width:700px){#book{padding:16px;border-radius:14px}#book form{padding:12px;gap:11px}}
-
-
-
-/* Rebuilt delivery showcase */
-.delivery-showcase{position:relative;isolation:isolate;overflow:hidden;padding:42px 22px;background:linear-gradient(112deg,#981f12 0%,#c52b13 52%,#ed480d 100%);color:#fff}
-.delivery-inner{max-width:1180px;min-height:250px;margin:auto;display:grid;grid-template-columns:minmax(280px,.85fr) 1.15fr;align-items:center;gap:24px}
-.delivery-copy{position:relative;z-index:3;padding:20px 0}
-.delivery-kicker{font-size:10px;letter-spacing:3px;font-weight:600;color:#ffd27a}
-.delivery-copy h2{margin:9px 0 12px;font:400 clamp(38px,5vw,58px)/1.05 var(--sc);color:#fff}
-.delivery-copy p{max-width:390px;margin:0 0 22px;color:#fff;font-size:14px;line-height:1.8}
-.delivery-order{display:inline-flex;padding:14px 25px;border-radius:999px;background:#17130b;color:var(--y);font-size:11px;font-weight:600;letter-spacing:1px;text-decoration:none}
-.delivery-scene{position:relative;min-height:240px;display:flex;align-items:center;justify-content:center}
-.delivery-scooter{position:absolute;left:-15%;top:20px;z-index:4;font-size:52px;filter:drop-shadow(0 8px 7px #0007);animation:deliveryRide 8s ease-in-out infinite}
-.delivery-bag{position:absolute;left:12%;top:38px;z-index:2;font-size:100px;line-height:1;filter:drop-shadow(0 13px 10px #0007);opacity:0;animation:deliveryBag 8s ease-in-out infinite}
-.delivery-bag i{position:absolute;top:10px;left:24px;width:80px;font-size:25px;font-style:normal;white-space:nowrap}
-.delivery-platter{position:relative;width:min(62%,390px);height:225px;margin-left:22%;perspective:900px}
-.delivery-food{position:absolute;width:78%;height:190px;object-fit:contain;filter:drop-shadow(0 16px 12px #0008);opacity:0;transform:translateX(130%) rotateY(-28deg) scale(.82);animation:deliveryFoodSlide 12s ease-in-out infinite}
-.delivery-food-one{animation-delay:0s}.delivery-food-two{animation-delay:4s}.delivery-food-three{animation-delay:8s}
-@keyframes deliveryRide{0%,4%{transform:translateX(-10vw);opacity:0}10%{opacity:1}44%{transform:translateX(120%);opacity:1}50%,100%{transform:translateX(125%);opacity:0}}
-@keyframes deliveryBag{0%,42%{opacity:0;transform:translateX(-30px) scale(.8)}50%{opacity:1;transform:translateX(0) scale(1)}72%{opacity:1;transform:translateX(0) scale(1)}82%,100%{opacity:0;transform:translateX(20px) scale(.9)}}
-@keyframes deliveryFoodSlide{0%,8%{opacity:0;transform:translateX(130%) rotateY(-28deg) scale(.82)}18%,32%{opacity:1;transform:translateX(0) rotateY(0) scale(1)}42%,100%{opacity:0;transform:translateX(-120%) rotateY(25deg) scale(.85)}}
-@media(max-width:760px){.delivery-showcase{padding:28px 18px}.delivery-inner{grid-template-columns:1fr;gap:0;text-align:center}.delivery-copy{padding:8px 0}.delivery-copy p{margin-left:auto;margin-right:auto}.delivery-scene{min-height:185px}.delivery-platter{width:60%;height:170px;margin-left:24%}.delivery-food{height:155px}.delivery-bag{font-size:72px;left:8%;top:32px}.delivery-bag i{font-size:18px;left:18px;width:60px}.delivery-scooter{font-size:42px}}
-@media(prefers-reduced-motion:reduce){.delivery-scooter,.delivery-bag,.delivery-food{animation:none;opacity:1;transform:none}}
