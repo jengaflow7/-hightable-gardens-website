@@ -16,13 +16,17 @@ try{
   var cats=groups.menu_categories||[],items=groups.menu_items||[];
   if(cats.length){
    C.categories=cats.map(function(row){
-    var d=row.data||{},key=String(d.slug||row.id),matched=items.filter(function(item){
-     var x=item.data||{};return String(x.category_id||"")===String(row.id)||String(x.category_id||"")===key;
-    });
-    var dishes=Array.isArray(d.dishes)?d.dishes:matched.map(function(item){
-     var x=item.data||{};return [x.name||x.title||"",x.description||"",x.price||""];
-    });
-    return {id:key,name:d.name||d.title||"Menu",cover:cmsAsset(d.cover||d.image),pics:[],dishes:dishes};
+    var d=row.data||{},name=String(d.name||d.title||"Menu"),slug=String(d.slug||name.toLowerCase().trim().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"")),key=slug||String(row.id);
+    var keys=[String(row.id),key,name.toLowerCase(),name.toLowerCase().trim().replace(/[^a-z0-9]+/g,"-")];
+    var matched=items.filter(function(item){
+     var x=item.data||{},refs=[x.category_id,x.category,x.category_slug,x.category_name].filter(function(v){return v!==undefined&&v!==null&&String(v).trim()!==""}).map(function(v){return String(v).toLowerCase().trim()});
+     return refs.some(function(v){return keys.some(function(k){return String(k).toLowerCase()===v;})});
+    }).sort(function(a,b){return (Number((a.data||{}).sort_order)||0)-(Number((b.data||{}).sort_order)||0);});
+    var dishes=matched.map(function(item){
+     var x=item.data||{};return {name:x.name||x.title||"",description:x.description||"",price:x.price==null?"":x.price,image:cmsAsset(x.image||x.photo||x.cover),available:x.available!==false&&x.active!==false,featured:!!x.featured};
+    }).filter(function(dish){return dish.name;});
+    if(!dishes.length&&Array.isArray(d.dishes))dishes=d.dishes;
+    return {id:key,name:name,cover:cmsAsset(d.background_image||d.cover||d.image),pics:[],dishes:dishes};
    });
   }
   var photos=(groups.gallery||[]).map(function(row){var d=row.data||{};return cmsAsset(d.image||d.src||d.file)}).filter(Boolean);
@@ -107,12 +111,17 @@ if(pg==="home"){
 if(pg==="menu"){
  var cats=C.categories,cur=(location.hash||"#"+cats[0].id).slice(1);
  if(!cats.some(function(c){return c.id===cur}))cur=cats[0].id;
- function dish(d){return '<div class="it"><div class="l"><h4>'+cmsText(d[0])+'</h4><i></i>'+(d[2]?'<b>'+cmsText(d[2])+'</b>':'')+'</div>'+(d[1]?'<p>'+cmsText(d[1])+'</p>':'')+'</div>'}
+ function dish(raw,c){
+  var d=Array.isArray(raw)?{name:raw[0],description:raw[1],price:raw[2],image:raw[3]}:(raw||{}),img=d.image||d.photo||d.cover;
+  return '<article class="dish-circle'+(d.featured?' featured':'')+'" tabindex="0">'+(img?'<img class="dish-photo" src="'+cmsText(cmsAsset(img))+'" alt="'+cmsText(d.name||d.title||"Menu dish")+'" loading="lazy">':'<div class="dish-photo dish-placeholder"><span>Hightable<br>Gardens</span></div>')+'<div class="dish-caption"><h3>'+cmsText(d.name||d.title||"")+'</h3><div class="dish-overlay">'+(d.description?'<p>'+cmsText(d.description)+'</p>':'')+(d.price!==undefined&&d.price!==null&&String(d.price)!==""?'<strong>KSh '+cmsText(d.price)+'</strong>':'')+'</div></div></article>';
+ }
  function draw(){
   var c=cats.filter(function(x){return x.id===cur})[0];
   $('tabs').innerHTML=cats.map(function(x){return '<button class="tab" type="button" role="tab" aria-selected="'+(x.id===cur)+'" data-id="'+cmsText(x.id)+'">'+cmsText(x.name)+'</button>'}).join('');
-  $('mlist').innerHTML=c.dishes.map(dish).join('');
-  $('menuStage').style.backgroundImage='url("'+cmsAsset(c.cover||(c.pics[0]&&c.pics[0][0]))+'")';
+  var dishes=(c.dishes||[]).filter(function(d){return !(d&&typeof d==="object"&&!Array.isArray(d)&&d.available===false);});
+  $('mlist').innerHTML=dishes.length?dishes.map(function(d){return dish(d,c)}).join(''):'<div class="menu-empty">No dishes have been added to this category yet.</div>';
+  var bg=c.background||c.background_image||c.cover;
+  $('menuStage').style.backgroundImage=bg?'url("'+cmsAsset(bg)+'")':'';
   $('menuEyebrow').textContent=c.name+' · menu';
  }
  $('tabs').addEventListener('click',function(e){var id=e.target.getAttribute('data-id');if(id&&cats.some(function(c){return c.id===id})){cur=id;history.replaceState(null,'','#'+id);draw()}});
