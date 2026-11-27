@@ -132,7 +132,7 @@ if(pg==="menu"){
  function menuListDish(raw){
   var d=Array.isArray(raw)?{name:raw[0],description:raw[1],price:raw[2],image:raw[3]}:(raw||{});
   var anchor="dish-"+cur+"-"+dishSlug(d.name||d.title);
-  return '<article class="it" id="'+escapeMenu(anchor)+'"><div class="l"><h4>'+escapeMenu(d.name||d.title||"")+'</h4><i></i><b>'+(d.price!==undefined&&d.price!==null&&String(d.price)!==""?'KSh '+escapeMenu(d.price):'Price on request')+'</b></div>'+(d.description?'<p>'+escapeMenu(d.description)+'</p>':'')+'</article>';
+  var dishName=String(d.name||d.title||"Menu item"),priceText=d.price!==undefined&&d.price!==null&&String(d.price)!==""?"KSh "+String(d.price):"Price on request",orderText="Hello Hightable Gardens, I’d like to order: "+dishName+" from "+String(cats.find(function(x){return x.id===cur})?.name||cur)+". Price: "+priceText+". Please confirm availability and delivery/pickup details.";return '<article class="it" id="'+escapeMenu(anchor)+'"><div class="l"><h4>'+escapeMenu(dishName)+'</h4><i></i><b>'+escapeMenu(priceText)+'</b></div>'+(d.description?'<p>'+escapeMenu(d.description)+'</p>':'')+'<a class="dish-order" href="'+wa+'?text='+encodeURIComponent(orderText)+'" target="_blank" rel="noopener">Order via WhatsApp <span aria-hidden="true">↗</span></a></article>';
  }
  function draw(){
   var c=cats.filter(function(x){return x.id===cur})[0];
