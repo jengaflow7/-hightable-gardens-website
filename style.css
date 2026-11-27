@@ -419,3 +419,15 @@ header .w{height:78px;gap:18px}header .lg{justify-self:center}header .mb{display
 @keyframes dlCornerGlide{0%{left:-44px!important;top:14px!important;opacity:0;transform:rotate(-8deg)}8%{opacity:.82}45%{left:calc(100% - 34px)!important;top:calc(100% - 42px)!important;opacity:.9;transform:rotate(7deg)}55%,100%{left:calc(100% + 44px)!important;top:calc(100% - 28px)!important;opacity:0;transform:rotate(0)}}
 @media(max-width:700px){.dl::before{font-size:28px!important;left:-38px!important;top:12px!important}@keyframes dlCornerGlide{0%{left:-38px!important;top:12px!important;opacity:0;transform:rotate(-8deg)}8%{opacity:.82}45%{left:calc(100% - 28px)!important;top:calc(100% - 34px)!important;opacity:.9;transform:rotate(7deg)}55%,100%{left:calc(100% + 38px)!important;top:calc(100% - 20px)!important;opacity:0;transform:rotate(0)}}}
 @media(prefers-reduced-motion:reduce){.dl::before{animation:none!important;opacity:0!important}}
+
+/* FINAL DELIVERY CARD — clean original orange band, corner-to-corner scooter */
+.dl{position:relative!important;overflow:hidden!important;isolation:isolate!important;padding:46px 0!important;text-align:center!important;color:#fff!important;background:linear-gradient(110deg,#a71d08 0%,#c92308 46%,#ff4a05 100%)!important;border:0!important}
+.dl::after,.dl .w::before,.dl .w::after{content:none!important;display:none!important;animation:none!important;background:none!important;box-shadow:none!important}
+.dl::before{content:"🛵"!important;display:block!important;position:absolute!important;left:0!important;top:0!important;font-size:32px!important;line-height:1!important;opacity:0!important;z-index:1!important;filter:drop-shadow(0 4px 5px rgba(0,0,0,.42))!important;animation:dlCornerToCorner 8s linear infinite!important;pointer-events:none!important}
+.dl .w{position:relative!important;z-index:2!important;max-width:940px!important;display:block!important;padding:24px!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;overflow:visible!important}
+.dl h3{color:#fff!important;margin:0 0 12px!important;text-shadow:0 3px 12px rgba(0,0,0,.12)!important}
+.dl p{color:#fff!important;margin:0 auto 20px!important}
+.dl .bt{display:inline-block!important;justify-self:auto!important;background:#17130b!important;border-color:#17130b!important;color:#e6b84e!important}
+@keyframes dlCornerToCorner{0%,8%{left:-42px!important;top:10px!important;opacity:0;transform:rotate(-8deg)}12%{opacity:.88}46%{left:calc(100% - 34px)!important;top:calc(100% - 42px)!important;opacity:.9;transform:rotate(7deg)}58%,100%{left:calc(100% + 42px)!important;top:calc(100% - 24px)!important;opacity:0;transform:rotate(0)}}
+@media(max-width:700px){.dl{padding:28px 0!important}.dl .w{padding:24px 18px!important}.dl::before{font-size:27px!important}}
+@media(prefers-reduced-motion:reduce){.dl::before{animation:none!important;opacity:0!important}}
