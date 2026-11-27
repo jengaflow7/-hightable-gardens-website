@@ -105,7 +105,7 @@ if(pg==="home"){
   var bookImages=(C.aboutImages&&C.aboutImages.length?C.aboutImages:(C.photos&&C.photos.length?C.photos:["garden.jpg"])).map(function(x){return cmsAsset(x)||x;}).filter(Boolean);
   var cmsPages=Array.isArray(C.aboutBookPages)?C.aboutBookPages:[];
   var featured={title:aboutData.subtitle||"Where memories are made",text:aboutData.body||"Good food, warm hospitality and moments worth sharing.",image:bookImages[0]||"img/garden.jpg"};
-  var bookPages=[featured].concat(cmsPages.map(function(p){return {title:String(p.title||""),text:String(p.text||p.body||""),image:p.image?cmsAsset(p.image):""};}).filter(function(p){return p.title||p.text||p.image;})));
+  var bookPages=[featured].concat(cmsPages.map(function(p){return {title:String(p.title||""),text:String(p.text||p.body||""),image:p.image?cmsAsset(p.image):""};}).filter(function(p){return p.title||p.text||p.image;}));
   if(aboutData.startDate&&coverDate)coverDate.textContent="Since "+aboutData.startDate;
   var bookIndex=0,bookTimer=null,bookVisible=false,bookPaused=false,bookOpen=false,bookCoverTimer=null;
   function setBookPage(index){
