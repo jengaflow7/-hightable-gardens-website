@@ -67,7 +67,19 @@ var L=[["index.html","Home","home"],["menu.html","Our menu","menu"],["index.html
 function lk(n){return '<a href="'+n[0]+'"'+(n[2]&&n[2]===pg?' style="color:var(--y)"':"")+">"+n[1]+"</a>"}
 var badge=HX?'<span class="hb"><svg viewBox="'+(HX.b==="flagke"?"0 0 100 70":"0 0 100 100")+'"><use href="#'+HX.b+'"/></svg></span>':"";
 $("hdr").innerHTML=(HX?'<div class="hs">'+HX.msg+"</div>":"")+'<header><div class="w"><button class="mb" type="button" aria-label="Toggle page navigation" aria-expanded="false">Explore</button><a class="lg" href="index.html" aria-label="Hightable Gardens home"><span class="lw"><img src="img/logo.png" alt="Namaiyana Hightable Gardens logo">'+badge+'</span></a><a class="bt header-reserve" href="contact.html#book">Reserve a table</a></div><div class="mn" aria-label="Page navigation">'+L.concat(R).map(lk).join("")+'<a href="contact.html#book">Reserve a table</a></div></header>';
-document.querySelector(".mb").addEventListener("click",function(){var h=document.querySelector("header"),b=document.querySelector(".mb"),open=h.classList.toggle("open");b.setAttribute("aria-expanded",open?"true":"false")});
+(function(){
+var host=document.getElementById("hdr"),head=host&&host.querySelector("header"),btn=host&&host.querySelector(".mb"),nav=host&&host.querySelector(".mn");
+if(!host||!head||!btn||!nav)return;
+function setExplore(open){
+host.classList.toggle("explore-open",open);
+head.classList.toggle("open",open);
+btn.setAttribute("aria-expanded",open?"true":"false");
+}
+btn.addEventListener("click",function(e){e.preventDefault();e.stopPropagation();setExplore(!host.classList.contains("explore-open"));});
+btn.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();setExplore(!host.classList.contains("explore-open"));}if(e.key==="Escape")setExplore(false);});
+nav.addEventListener("click",function(e){if(e.target.closest("a"))setExplore(false);});
+document.addEventListener("click",function(e){if(!host.contains(e.target))setExplore(false);});
+})();
 var map="https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(C.mapQuery),tel="tel:+"+C.whatsapp,wa="https://wa.me/"+C.whatsapp;
 var so='<div class="so"><a href="'+C.tiktok+'" target="_blank" rel="noopener" aria-label="TikTok"><svg viewBox="0 0 24 24"><path d="M16.6 5.8A4.3 4.3 0 0 1 15.5 3h-3.1v12.4a2.6 2.6 0 1 1-2.6-2.6c.3 0 .5 0 .8.1V9.7a5.7 5.7 0 1 0 4.9 5.6V9a7.3 7.3 0 0 0 4.2 1.3V7.2a4.3 4.3 0 0 1-3.1-1.4z"/></svg></a><a href="'+C.facebook+'" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M13.5 21v-8h2.7l.4-3.2h-3.1V7.8c0-.9.3-1.5 1.6-1.5h1.7V3.4c-.3 0-1.3-.1-2.4-.1-2.4 0-4.1 1.5-4.1 4.2v2.3H7.5V13h2.8v8h3.2z"/></svg></a><a href="'+C.instagram+'" target="_blank" rel="noopener" aria-label="Instagram"><svg class="s" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor" stroke="none"/></svg></a></div>';
 $("ftr").innerHTML='<div class="site-footer"><div class="footer-top"><div class="footer-brand"><span class="sc">Hightable Gardens</span><p>Good food, warm hospitality and moments worth sharing in Narok.</p>'+so+'</div><nav class="footer-nav" aria-label="All pages">'+L.concat(R).map(lk).join("")+'</nav><div class="footer-contact"><a href="'+tel+'">Call us</a><a href="'+wa+'" target="_blank" rel="noopener">WhatsApp</a><a href="'+map+'" target="_blank" rel="noopener">Directions</a></div></div><footer>© Hightable Gardens Narok. All rights reserved.</footer><div class="footer-links"><a href="careers.html">Careers</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></div><div class="bar"><a href="'+tel+'">Call</a><a href="'+wa+'" target="_blank" rel="noopener">WhatsApp</a><a href="'+map+'" target="_blank" rel="noopener">Directions</a></div>';
