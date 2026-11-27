@@ -13,7 +13,7 @@ try{
  var response=await fetch("/api/admin/public",{cache:"no-store",credentials:"same-origin"});
  if(response.ok){
   var payload=await response.json(),groups=payload.records||{};
-  var themeRows=groups.theme_settings||[];if(themeRows.length){var td=themeRows[0].data||{};if(td.active!==false){var root=document.documentElement;var vars={primary:"--y",secondary:"--r",background:"--bg",text:"--ink",muted:"--m",border:"--ln"};Object.keys(vars).forEach(function(k){if(/^#[0-9a-f]{6}$/i.test(String(td[k]||"")))root.style.setProperty(vars[k],td[k])});if(/^#[0-9a-f]{6}$/i.test(String(td.surface||"")))root.style.setProperty("--theme-surface",td.surface);if(/^#[0-9a-f]{6}$/i.test(String(td.accent||"")))root.style.setProperty("--theme-accent",td.accent);}}var cats=groups.menu_categories||[],items=groups.menu_items||[];
+  var themeRows=groups.theme_settings||[];if(themeRows.length){var td=themeRows[0].data||{};if(td.active!==false){var root=document.documentElement;var vars={primary:"--y",secondary:"--r",background:"--bg",text:"--ink",muted:"--m",border:"--ln"};Object.keys(vars).forEach(function(k){if(/^#[0-9a-f]{6}$/i.test(String(td[k]||"")))root.style.setProperty(vars[k],td[k])});if(/^#[0-9a-f]{6}$/i.test(String(td.surface||"")))root.style.setProperty("--theme-surface",td.surface);if(/^#[0-9a-f]{6}$/i.test(String(td.accent||"")))root.style.setProperty("--theme-accent",td.accent);}}var cats=(groups.menu_categories||[]).filter(function(row){return (row.data||{}).active!==false;}).sort(function(a,b){return (Number((a.data||{}).sort_order)||0)-(Number((b.data||{}).sort_order)||0);}),items=groups.menu_items||[];
   if(cats.length){
    C.categories=cats.map(function(row){
     var d=row.data||{},name=String(d.name||d.title||"Menu"),slug=String(d.slug||name.toLowerCase().trim().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"")),key=slug||String(row.id);
@@ -132,7 +132,7 @@ if(pg==="menu"){
  function menuListDish(raw){
   var d=Array.isArray(raw)?{name:raw[0],description:raw[1],price:raw[2],image:raw[3]}:(raw||{});
   var anchor="dish-"+cur+"-"+dishSlug(d.name||d.title);
-  return '<article class="it" id="'+escapeMenu(anchor)+'"><div class="l"><h4>'+escapeMenu(d.name||d.title||"")+'</h4><i></i><b>'+(d.price!==undefined&&d.price!==null&&String(d.price)!==""?'KSh '+escapeMenu(d.price):'')+'</b></div>'+(d.description?'<p>'+escapeMenu(d.description)+'</p>':'')+'</article>';
+  return '<article class="it" id="'+escapeMenu(anchor)+'"><div class="l"><h4>'+escapeMenu(d.name||d.title||"")+'</h4><i></i><b>'+(d.price!==undefined&&d.price!==null&&String(d.price)!==""?'KSh '+escapeMenu(d.price):'Price on request')+'</b></div>'+(d.description?'<p>'+escapeMenu(d.description)+'</p>':'')+'</article>';
  }
  function draw(){
   var c=cats.filter(function(x){return x.id===cur})[0];
