@@ -460,3 +460,118 @@ header .mn a:active{
 #about .about-carousel-status{text-align:center;font-size:11px;color:var(--m);margin:12px 0 0}
 @media(max-width:860px){#about .about-carousel{width:min(78vw,360px)}#about .about-prev{left:-8px}#about .about-next{right:-8px}}
 @media(prefers-reduced-motion:reduce){#about.about-title-writing .about-title-text{clip-path:none;animation:none}#about.about-title-writing .about-chalk{display:none}#about .about-image-frame{transition:none}#about .about-arrow{transition:none}}
+
+
+/* About carousel refinement: static frame, edge-to-edge imagery, responsive vintage treatment */
+#about .pic,
+#about .about-carousel,
+#about .about-image-frame{
+  animation:none!important;
+  transform:none;
+}
+#about .pic{display:flex;flex-direction:column;align-items:stretch}
+#about .about-carousel{
+  width:min(100%,470px);
+  aspect-ratio:1;
+  margin:0 auto;
+  overflow:visible;
+}
+#about .about-image-frame{
+  inset:0;
+  border-radius:50%;
+  padding:0;
+  border:7px solid rgba(224,190,120,.58);
+  box-shadow:0 18px 42px rgba(0,0,0,.58),inset 0 0 0 2px rgba(255,245,220,.22);
+  overflow:hidden;
+  background:#171411;
+}
+#about .about-image-frame img{
+  display:block;
+  width:100%;
+  height:100%;
+  max-width:none;
+  margin:0;
+  padding:0;
+  border:0;
+  border-radius:inherit;
+  object-fit:cover;
+  object-position:center;
+}
+#about .about-image-frame.about-leaving{filter:sepia(.34) contrast(1.08);transform:scale(.985)}
+#about .about-image-frame.about-enter-left,
+#about .about-image-frame.about-enter-right{
+  filter:sepia(.12) contrast(1.04);
+  box-shadow:0 18px 42px rgba(0,0,0,.58),inset 0 0 0 3px rgba(238,205,145,.42);
+}
+#about .about-arrow{box-shadow:0 4px 14px rgba(0,0,0,.35)}
+#about .about-chalk{
+  width:29px;
+  height:10px;
+  border-radius:3px 8px 4px 7px;
+  background:linear-gradient(180deg,#fff0bf 0%,#e9bd69 48%,#b77b22 100%);
+  box-shadow:0 1px 0 rgba(255,255,255,.55),0 0 12px rgba(245,179,36,.75);
+  z-index:2;
+}
+#about.about-title-writing .about-title-text{
+  animation-duration:2.8s;
+  animation-timing-function:steps(38,end);
+}
+#about.about-title-writing .about-chalk{
+  animation:aboutChalkMove 2.8s linear forwards,aboutChalkFade .35s 2.8s forwards;
+}
+@keyframes aboutChalkWrite{to{clip-path:inset(0 0 0 0)}}
+@keyframes aboutChalkMove{0%{left:0;transform:translate(-5px,-50%) rotate(-22deg)}100%{left:100%;transform:translate(0,-50%) rotate(-22deg)}}
+@media(max-width:700px){
+  #about .row{grid-template-columns:minmax(0,1fr)!important;gap:28px!important;align-items:start!important}
+  #about .about-copy{order:0}
+  #about .pic{order:1;width:100%;min-width:0}
+  #about .about-carousel{
+    width:100%;
+    max-width:none;
+    aspect-ratio:16/10;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    grid-template-rows:minmax(0,1fr) 48px;
+    column-gap:14px;
+    row-gap:12px;
+    margin:0;
+  }
+  #about .about-image-frame{
+    position:relative;
+    inset:auto;
+    grid-column:1 / -1;
+    grid-row:1;
+    width:100%;
+    height:100%;
+    border-radius:22px;
+    border:6px solid rgba(190,151,91,.78);
+    box-shadow:0 15px 32px rgba(0,0,0,.5),inset 0 0 0 2px rgba(255,239,205,.28);
+  }
+  #about .about-image-frame img{border-radius:15px;object-fit:cover}
+  #about .about-image-frame.about-leaving{transform:translateY(4px) scale(.99)}
+  #about .about-arrow{
+    position:relative;
+    top:auto;
+    left:auto!important;
+    right:auto!important;
+    transform:none!important;
+    width:100%;
+    height:44px;
+    border-radius:10px;
+    align-self:center;
+    grid-row:2;
+    box-shadow:0 4px 12px rgba(0,0,0,.3);
+  }
+  #about .about-prev{grid-column:1}
+  #about .about-next{grid-column:2}
+  #about .about-arrow:hover,#about .about-arrow:focus-visible{transform:scale(1.025)!important}
+  #about .about-carousel-status{margin-top:8px}
+}
+@media(max-width:380px){
+  #about .about-carousel{aspect-ratio:15/10;grid-template-rows:minmax(0,1fr) 44px}
+  #about .about-image-frame{border-radius:18px}
+}
+@media(prefers-reduced-motion:reduce){
+  #about.about-title-writing .about-title-text{animation:none;clip-path:none}
+  #about.about-title-writing .about-chalk{display:none}
+}
