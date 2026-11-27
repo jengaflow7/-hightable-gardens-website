@@ -169,3 +169,31 @@ header.open .mn{display:block}.mn{position:absolute;left:0;right:0;top:100%;back
 .orbit-badge.badge-wobble{animation:badgeWobble 2.2s ease-in-out infinite}
 .orbit-badge.badge-shake{animation:badgeShake .45s ease-in-out infinite}
 @media(prefers-reduced-motion:reduce){.orbit-badge.badge-wobble,.orbit-badge.badge-shake{animation:none}}
+
+/* Chalkboard menu cards — CMS-driven circles */
+.menu-stage{background-color:#171916;background-image:radial-gradient(rgba(255,255,255,.035) 1px,transparent 1px);background-size:5px 5px;align-items:flex-start}
+.menu-shade{background:linear-gradient(180deg,rgba(5,7,6,.86),rgba(5,7,6,.72) 40%,rgba(5,7,6,.94))}
+.menu-content{width:min(1100px,100%);padding:clamp(18px,3vw,38px);background:rgba(12,14,12,.72);border:1px solid rgba(245,179,36,.25);box-shadow:0 20px 55px #0007}
+.menu-content .mlist{max-width:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:28px 22px;align-items:start}
+.dish-circle{position:relative;width:100%;max-width:230px;margin:0 auto;text-align:center;outline:none;isolation:isolate;transition:transform .35s ease;cursor:pointer}
+.dish-photo{display:block;width:100%;aspect-ratio:1/1;border-radius:50%;object-fit:cover;border:3px solid rgba(245,179,36,.58);box-shadow:0 0 0 6px rgba(245,179,36,.08),0 12px 28px #0008;transition:transform .4s ease,filter .4s ease,box-shadow .4s ease}
+.dish-placeholder{display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 30% 25%,#45483f,#181a17 70%);color:#d5c79f;font:400 22px var(--sc);line-height:1.2}
+.dish-circle:hover,.dish-circle:focus-visible{transform:translateY(-5px) rotate(-1deg)}
+.dish-circle:hover .dish-photo,.dish-circle:focus-visible .dish-photo{transform:scale(1.035);filter:brightness(.62);box-shadow:0 0 0 7px rgba(245,179,36,.15),0 18px 35px #000a}
+.dish-caption{padding:12px 4px 4px;position:relative}
+.dish-caption h3{margin:0;color:#e8d9ad;font:400 23px var(--sc);text-shadow:0 1px 3px #000;line-height:1.25}
+.dish-overlay{max-height:0;overflow:hidden;opacity:0;transition:opacity .3s ease,max-height .35s ease;margin:0 auto;color:#d1d1c8}
+.dish-circle:hover .dish-overlay,.dish-circle:focus-visible .dish-overlay{max-height:180px;opacity:1;margin-top:7px}
+.dish-overlay p{margin:3px 0 6px;font:300 12px/1.55 var(--n);color:#c9c8bf}
+.dish-overlay strong{color:var(--y);font:500 14px var(--n)}
+.dish-circle.featured .dish-photo{border-color:#f5b324;box-shadow:0 0 0 7px rgba(245,179,36,.15),0 12px 30px #0008}
+.menu-empty{grid-column:1/-1;text-align:center;padding:48px 16px;color:#c9c5b7;font:400 22px var(--sc);border:1px dashed rgba(245,179,36,.3);background:rgba(10,12,10,.5)}
+@media(max-width:700px){
+ .menu-content{padding:18px 14px}
+ .menu-content .mlist{grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 12px}
+ .dish-circle{max-width:170px}
+ .dish-caption h3{font-size:20px}
+ .dish-overlay{max-height:unset;opacity:1;margin-top:6px}
+ .dish-overlay p{font-size:11px}
+ .menu-empty{font-size:19px;padding:32px 12px}
+}
