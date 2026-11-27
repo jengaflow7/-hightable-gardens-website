@@ -109,11 +109,20 @@ if(pg==="home"){
  fa.src="img/"+C.coin[0][0];fb.src="img/"+C.coin[1%C.coin.length][0];cap.textContent=C.coin[0][1];
  function flip(){var nx=(ci+1)%C.coin.length,hidden=flips%2===0?fb:fa;hidden.src="img/"+C.coin[nx][0];cap.textContent=C.coin[nx][1];deg+=540;coin.style.transform="rotateY("+deg+"deg)";ci=nx;flips++}
  new IntersectionObserver(function(e,o){if(e[0].isIntersecting){cs.classList.add("go");o.disconnect();if(!still)setTimeout(function(){flip();setInterval(flip,4600)},3200)}},{threshold:.35}).observe(cs);
- $("hcats").innerHTML=C.categories.map(function(c){return '<a href="menu.html#'+encodeURIComponent(c.id)+'">'+cmsText(c.name)+"</a>"}).join("");
+ function dishSlug(name){return String(name||"dish").toLowerCase().trim().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"")||"dish"}
+ function showHomeCategory(cat){
+  var wrap=$("homeCategoryFeatured");
+  var featured=(cat.dishes||[]).filter(function(d){return d&&typeof d==="object"&&!Array.isArray(d)&&d.featured===true&&d.available!==false&&d.image;});
+  wrap.innerHTML='<div class="home-featured-heading"><h3>'+cmsText(cat.name)+'</h3><p>Featured from this category</p></div>'+(featured.length?'<div class="home-featured-grid">'+featured.map(function(d){var anchor="dish-"+cat.id+"-"+dishSlug(d.name);return '<a class="home-featured-circle" href="menu.html#'+cmsText(anchor)+'"><img src="'+cmsText(cmsAsset(d.image))+'" alt="'+cmsText(d.name)+'" loading="lazy"><span>'+cmsText(d.name)+'</span></a>';}).join(""):'<p class="home-featured-empty">No featured dishes in this category yet.</p>');
+ }
+ $("hcats").innerHTML=C.categories.map(function(c){return '<button class="tab home-cat-tab" type="button" aria-pressed="false" data-category="'+cmsText(c.id)+'">'+cmsText(c.name)+'</button>'}).join("");
+ $("hcats").addEventListener("click",function(e){var b=e.target.closest("[data-category]");if(!b)return;var cat=C.categories.find(function(c){return c.id===b.getAttribute("data-category")});if(!cat)return;$("hcats").querySelectorAll("[data-category]").forEach(function(x){x.setAttribute("aria-pressed",x===b?"true":"false")});showHomeCategory(cat);});
+ if(C.categories.length)showHomeCategory(C.categories[0]);
 }
 /* ---------- menu page: chips, optional featured circles, complete priced list ---------- */
 if(pg==="menu"){
- var cats=C.categories,cur=(location.hash||"#"+cats[0].id).slice(1);
+ var cats=C.categories,hash=decodeURIComponent((location.hash||"").slice(1)),cur=hash;
+ if(hash.indexOf("dish-")===0){var found=cats.find(function(c){return (c.dishes||[]).some(function(d){return d&&typeof d==="object"&&!Array.isArray(d)&&("dish-"+c.id+"-"+String(d.name||d.title||"").toLowerCase().trim().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,""))===hash;});});if(found)cur=found.id;}
  if(!cats.some(function(c){return c.id===cur}))cur=cats[0].id;
  function escapeMenu(value){return cmsText(value)}
  function featuredDish(raw){
@@ -122,7 +131,8 @@ if(pg==="menu"){
  }
  function menuListDish(raw){
   var d=Array.isArray(raw)?{name:raw[0],description:raw[1],price:raw[2],image:raw[3]}:(raw||{});
-  return '<article class="it"><div class="l"><h4>'+escapeMenu(d.name||d.title||"")+'</h4><i></i><b>'+(d.price!==undefined&&d.price!==null&&String(d.price)!==""?'KSh '+escapeMenu(d.price):'')+'</b></div>'+(d.description?'<p>'+escapeMenu(d.description)+'</p>':'')+'</article>';
+  var anchor="dish-"+cur+"-"+dishSlug(d.name||d.title);
+  return '<article class="it" id="'+escapeMenu(anchor)+'"><div class="l"><h4>'+escapeMenu(d.name||d.title||"")+'</h4><i></i><b>'+(d.price!==undefined&&d.price!==null&&String(d.price)!==""?'KSh '+escapeMenu(d.price):'')+'</b></div>'+(d.description?'<p>'+escapeMenu(d.description)+'</p>':'')+'</article>';
  }
  function draw(){
   var c=cats.filter(function(x){return x.id===cur})[0];
@@ -137,6 +147,7 @@ if(pg==="menu"){
  }
  $('tabs').addEventListener('click',function(e){var id=e.target.getAttribute('data-id');if(id&&cats.some(function(c){return c.id===id})){cur=id;history.replaceState(null,'','#'+id);draw()}});
  draw();
+ if(hash.indexOf("dish-")===0)setTimeout(function(){var target=document.getElementById(hash);if(target)target.scrollIntoView({behavior:"smooth",block:"center"});},150);
 }
 /* ---------- gallery ---------- */
 if(pg==="gallery"){
