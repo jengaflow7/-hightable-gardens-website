@@ -34,6 +34,8 @@ try{
   var homeDishes=items.filter(function(row){var d=row.data||{};return d.homeFeatured===true&&(d.active!==false)&&(d.available!==false)&&(d.image||d.photo||d.cover);}).map(function(row){var d=row.data||{};return {image:cmsAsset(d.image||d.photo||d.cover),title:d.name||d.title||"",badge:d.badge&&d.badge.enabled?d.badge:{enabled:true,text:(d.badge&&d.badge.text)||"Featured",background:(d.badge&&d.badge.background)||"#f5b324",color:(d.badge&&d.badge.color)||"#17130a",shape:(d.badge&&d.badge.shape)||"price-tag",animation:(d.badge&&d.badge.animation)||"wobble"},link:"menu.html#"+encodeURIComponent(d.category_slug||d.category_id||d.category||"")};}).filter(function(x){return x.image;});
   var circles=homeDishes.length?homeDishes:(groups.circles||[]).map(function(row){var d=row.data||{};return {image:cmsAsset(d.image||d.photo),title:d.title||"",badge:Object.assign({},d.badge||{},{enabled:true,text:(d.badge&&d.badge.text)||"Featured"}),link:d.link||""};}).filter(function(x){return x.image;});
   if(circles.length){C.orbit=circles.map(function(x){return x.image});C.orbitDetails=circles;}
+  var aboutRows=(groups.homepage_content||[]).filter(function(row){return String((row.data||{}).section||"").toLowerCase()==="about";});
+  if(aboutRows.length){var ad=aboutRows[0].data||{};C.aboutContent={title:ad.title||"About Hightable",subtitle:ad.subtitle||"Where memories are made",body:ad.body||""};var rawAbout=Array.isArray(ad.gallery_images)?ad.gallery_images:String(ad.gallery_images||"").split(/[\\n,]+/);C.aboutImages=rawAbout.map(cmsAsset).filter(Boolean);}
  }
 }catch(e){/* Existing cfg.js content remains the fallback if CMS is unavailable. */}
 var $=function(i){return document.getElementById(i)},pg=document.body.getAttribute("data-page"),still=matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -93,6 +95,38 @@ var rv=[].slice.call(document.querySelectorAll(".rv"));
 if("IntersectionObserver" in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}})},{threshold:.08});rv.forEach(function(n){io.observe(n)})}else rv.forEach(function(n){n.classList.add("in")});
 /* ---------- home: rotating circles + rolling coin ---------- */
 if(pg==="home"){
+ var aboutSection=$("about"),aboutData=C.aboutContent||{},aboutTitle=$("aboutTitleText"),aboutSub=$("aboutSubtitle"),aboutBody=$("aboutBody"),aboutLink=$("aboutGalleryLink");
+ if(aboutTitle&&aboutData.title)aboutTitle.textContent=aboutData.title;
+ if(aboutSub&&aboutData.subtitle)aboutSub.textContent=aboutData.subtitle;
+ if(aboutBody&&aboutData.body)aboutBody.textContent=aboutData.body;
+ if(aboutLink){aboutLink.textContent="See gallery";aboutLink.href="gallery.html";}
+ var aboutFrame=$("aboutImageFrame"),aboutImg=$("aboutImage"),prevAbout=$("aboutCarousel")&&$("aboutCarousel").querySelector(".about-prev"),nextAbout=$("aboutCarousel")&&$("aboutCarousel").querySelector(".about-next"),aboutStatus=$("aboutCarouselStatus");
+ if(aboutFrame&&aboutImg){
+  var aboutImages=(C.aboutImages&&C.aboutImages.length?C.aboutImages:(C.photos&&C.photos.length?C.photos:["garden.jpg"])).map(function(x){return cmsAsset(x)||x;}).filter(Boolean);
+  var aboutIndex=0,aboutTimer=null,aboutPaused=false,aboutTouching=false;
+  function paintAbout(next,direction){
+   if(!aboutImages.length)return;
+   aboutIndex=(next+aboutImages.length)%aboutImages.length;
+   aboutFrame.classList.remove("about-enter-left","about-enter-right");
+   aboutFrame.classList.add("about-leaving");
+   window.setTimeout(function(){aboutImg.src=aboutImages[aboutIndex].indexOf("http")===0?aboutImages[aboutIndex]:(aboutImages[aboutIndex].indexOf("img/")===0?aboutImages[aboutIndex]:"img/"+aboutImages[aboutIndex]);aboutImg.alt="Hightable Gardens gallery photo "+(aboutIndex+1);aboutFrame.classList.remove("about-leaving");aboutFrame.classList.add(direction==="prev"?"about-enter-left":"about-enter-right");if(aboutStatus)aboutStatus.textContent=(aboutIndex+1)+" / "+aboutImages.length;},180);
+  }
+  function stopAboutTimer(){if(aboutTimer){clearInterval(aboutTimer);aboutTimer=null;}}
+  function startAboutTimer(){stopAboutTimer();if(!still&&!aboutPaused&&aboutImages.length>1)aboutTimer=setInterval(function(){paintAbout(aboutIndex+1,"next");},3000);}
+  if(aboutStatus)aboutStatus.textContent="1 / "+aboutImages.length;
+  if(prevAbout)prevAbout.addEventListener("click",function(){paintAbout(aboutIndex-1,"prev");startAboutTimer();});
+  if(nextAbout)nextAbout.addEventListener("click",function(){paintAbout(aboutIndex+1,"next");startAboutTimer();});
+  aboutImg.addEventListener("pointerdown",function(){aboutTouching=true;aboutPaused=true;stopAboutTimer();});
+  function releaseAbout(){if(aboutTouching){aboutTouching=false;aboutPaused=false;startAboutTimer();}}
+  aboutImg.addEventListener("pointerup",releaseAbout);aboutImg.addEventListener("pointercancel",releaseAbout);aboutImg.addEventListener("pointerleave",releaseAbout);
+  aboutImg.addEventListener("keydown",function(e){if(e.key===" "||e.key==="Enter"){e.preventDefault();aboutPaused=!aboutPaused;if(aboutPaused)stopAboutTimer();else startAboutTimer();}});
+  aboutImg.tabIndex=0;aboutImg.setAttribute("role","button");aboutImg.setAttribute("aria-label","Press and hold to pause the image slideshow");
+  startAboutTimer();
+ }
+ if(aboutSection&&aboutTitle&&!still&&"IntersectionObserver" in window){
+  var chalkObserver=new IntersectionObserver(function(entries,observer){if(entries[0].isIntersecting){aboutSection.classList.add("about-title-writing");observer.disconnect();}}, {threshold:.35});
+  chalkObserver.observe(aboutSection);
+ }else if(aboutSection){aboutSection.classList.add("about-title-written");}
  var st=$("stage"),sizes=[250,200,270,220,210,240,180,200,210,220],nodes=C.orbit.map(function(f,i){
   var e=document.createElement("div"),detail=(C.orbitDetails||[])[i]||{};
   e.className="ob"+GIFT;e.style.width=sizes[i%sizes.length]+"px";e.style.opacity=0;
