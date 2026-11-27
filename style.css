@@ -97,16 +97,18 @@ footer{background:#0e1012;text-align:center;font-size:12px;padding:16px;color:va
 .ob:hover img{animation:shk .5s ease-in-out infinite}
 @keyframes shk{0%,100%{transform:rotate(0) scale(1.04)}25%{transform:rotate(-4deg) scale(1.07)}75%{transform:rotate(4deg) scale(1.07)}}
 .ctr{z-index:300;top:51%}
-.cwrap{width:min(78vw,430px);aspect-ratio:1;perspective:1300px;margin:0 auto;transform:translateX(75vw) scale(.88);opacity:0;will-change:transform,opacity}
-.go .cwrap{transform:translateX(0) scale(1);opacity:1;transition:transform 1.55s cubic-bezier(.18,.78,.2,1),opacity .65s ease}
-.coin{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform 1.7s cubic-bezier(.3,.7,.2,1);filter:drop-shadow(0 26px 30px rgba(0,0,0,.55))}
-.face{position:absolute;inset:0;border-radius:50%;overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden;border:7px solid #c9a24a;box-shadow:inset 0 0 0 2px #f1d385,inset 0 0 28px rgba(0,0,0,.55),0 0 24px rgba(201,162,74,.12)}
+.cwrap{width:min(78vw,430px);aspect-ratio:1;perspective:1300px;margin:0 auto;transform:translateX(34vw) scale(.96);opacity:0;will-change:transform,opacity}
+.go .cwrap{transform:translateX(0) scale(1);opacity:1;transition:transform 2.35s cubic-bezier(.22,.68,.18,1),opacity 1.5s ease}
+.coin{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform 2.1s cubic-bezier(.35,.65,.25,1);filter:drop-shadow(0 18px 24px rgba(0,0,0,.42))}
+.face{position:absolute;inset:0;border-radius:50%;overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden;border:1px solid rgba(201,162,74,.72);box-shadow:inset 0 0 0 1px rgba(241,211,133,.16),inset 0 0 22px rgba(0,0,0,.38),0 0 16px rgba(201,162,74,.07)}
 .face.b{transform:rotateY(180deg)}.face img{width:100%;height:100%;object-fit:cover;display:block}
 .ctx>*{opacity:0;transform:translateX(70px);transition:opacity .8s ease,transform .85s cubic-bezier(.2,.7,.2,1)}
 .go .ctx>*{opacity:1;transform:none}.go .ctx>:nth-child(1){transition-delay:1.35s}.go .ctx>:nth-child(2){transition-delay:1.55s}.go .ctx>:nth-child(3){transition-delay:1.75s}
 .ctx .box>*{opacity:0;transform:translateY(12px);transition:opacity .65s ease,transform .75s cubic-bezier(.2,.7,.2,1)}
 .go .ctx .box>*{opacity:1;transform:none}
 .go .ctx .box>*:nth-child(1){transition-delay:1.75s}.go .ctx .box>*:nth-child(2){transition-delay:1.95s}.go .ctx .box>*:nth-child(3){transition-delay:2.15s}.go .ctx .box>*:nth-child(4){transition-delay:2.3s}.go .ctx .box>*:nth-child(5){transition-delay:3.1s}
+.ctx .coin-eyebrow{display:block;margin-top:13px!important;margin-bottom:13px!important;line-height:1.65;text-decoration:underline;text-decoration-color:rgba(245,179,36,.58);text-decoration-thickness:1px;text-underline-offset:4px}
+.ctx .box h2.sc{margin-bottom:15px!important;line-height:1.12}
 .ctx .cap{font:400 24px var(--sc);color:var(--y);min-height:34px;margin:6px 0 14px}
 .ctx .coin-description{min-height:4.8em;max-width:44ch;line-height:1.8;letter-spacing:.005em}
 .ctx .coin-reserve{display:inline-flex;align-items:center;gap:8px;width:max-content;border-bottom:1px solid rgba(245,179,36,.6);padding:5px 0;transition:color .25s,border-color .25s,letter-spacing .25s}
