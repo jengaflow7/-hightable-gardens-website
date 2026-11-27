@@ -1,5 +1,37 @@
-(function(){
-var C=CONFIG,$=function(i){return document.getElementById(i)},pg=document.body.getAttribute("data-page"),still=matchMedia("(prefers-reduced-motion: reduce)").matches;
+(async function(){
+var C=CONFIG;
+function cmsAsset(value){
+ if(typeof value!=="string"||!value.trim())return "";
+ var v=value.trim();
+ if(/^https:\/\//i.test(v))return v;
+ v=v.replace(/^\/+/, "");
+ if(v.indexOf("..")!==-1||! /^[a-zA-Z0-9_./-]+$/.test(v))return "";
+ return v.indexOf("/")===-1?"img/"+v:v;
+}
+function cmsText(value){return String(value==null?"":value).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+try{
+ var response=await fetch("/api/admin/public",{cache:"no-store",credentials:"same-origin"});
+ if(response.ok){
+  var payload=await response.json(),groups=payload.records||{};
+  var cats=groups.menu_categories||[],items=groups.menu_items||[];
+  if(cats.length){
+   C.categories=cats.map(function(row){
+    var d=row.data||{},key=String(d.slug||row.id),matched=items.filter(function(item){
+     var x=item.data||{};return String(x.category_id||"")===String(row.id)||String(x.category_id||"")===key;
+    });
+    var dishes=Array.isArray(d.dishes)?d.dishes:matched.map(function(item){
+     var x=item.data||{};return [x.name||x.title||"",x.description||"",x.price||""];
+    });
+    return {id:key,name:d.name||d.title||"Menu",cover:cmsAsset(d.cover||d.image),pics:[],dishes:dishes};
+   });
+  }
+  var photos=(groups.gallery||[]).map(function(row){var d=row.data||{};return cmsAsset(d.image||d.src||d.file)}).filter(Boolean);
+  if(photos.length)C.photos=photos;
+  var circles=(groups.circles||[]).map(function(row){var d=row.data||{};return {image:cmsAsset(d.image||d.photo),title:d.title||"",badge:d.badge||{}}}).filter(function(x){return x.image});
+  if(circles.length){C.orbit=circles.map(function(x){return x.image});C.orbitDetails=circles;}
+ }
+}catch(e){/* Existing cfg.js content remains the fallback if CMS is unavailable. */}
+var $=function(i){return document.getElementById(i)},pg=document.body.getAttribute("data-page"),still=matchMedia("(prefers-reduced-motion: reduce)").matches;
 var P='viewBox="0 0 100 100"';
 document.body.insertAdjacentHTML("afterbegin",'<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>'+
 '<radialGradient id="gr" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#ff6a4a"/><stop offset="1" stop-color="#a81a10"/></radialGradient>'+
@@ -44,7 +76,22 @@ var rv=[].slice.call(document.querySelectorAll(".rv"));
 if("IntersectionObserver" in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}})},{threshold:.08});rv.forEach(function(n){io.observe(n)})}else rv.forEach(function(n){n.classList.add("in")});
 /* ---------- home: rotating circles + rolling coin ---------- */
 if(pg==="home"){
- var st=$("stage"),sizes=[250,200,270,220,210,240,180,200,210,220],nodes=C.orbit.map(function(f,i){var e=document.createElement("div");e.className="ob"+GIFT;e.style.width=sizes[i%sizes.length]+"px";e.style.opacity=0;e.innerHTML='<img src="img/'+f+'" alt="Hightable Gardens food and venue" loading="lazy">';st.appendChild(e);return e}),run=true,t0=performance.now();
+ var st=$("stage"),sizes=[250,200,270,220,210,240,180,200,210,220],nodes=C.orbit.map(function(f,i){
+  var e=document.createElement("div"),detail=(C.orbitDetails||[])[i]||{};
+  e.className="ob"+GIFT;e.style.width=sizes[i%sizes.length]+"px";e.style.opacity=0;
+  var im=document.createElement("img");im.src=cmsAsset(f)||"img/"+f;im.alt=detail.title||"Hightable Gardens food and venue";im.loading="lazy";e.appendChild(im);
+  var b=detail.badge||{};
+  if(b.enabled&&b.text){
+   var tag=document.createElement("span");tag.className="orbit-badge "+(b.shape||"price-tag")+" "+(b.animation==="shake"?"badge-shake":b.animation==="wobble"?"badge-wobble":"");
+   tag.textContent=String(b.text);tag.style.background=b.background||"#f5b324";tag.style.color=b.color||"#17130a";
+   if(b.borderColor)tag.style.borderColor=b.borderColor;
+   if(b.rotation!==undefined)tag.style.setProperty("--badge-rotation",Number(b.rotation)+"deg");
+   if(b.offsetX!==undefined)tag.style.right="calc(4% + "+Number(b.offsetX)+"px)";
+   if(b.offsetY!==undefined)tag.style.top="calc(-2% + "+Number(b.offsetY)+"px)";
+   e.appendChild(tag);
+  }
+  st.appendChild(e);return e;
+ }),run=true,t0=performance.now();
  function place(t){var W=st.clientWidth,Hh=st.clientHeight,mob=W<700,rx=W*(mob?.7:.45),ry=Hh*(mob?.41:.4),cx=W/2,cy=Hh*(mob?.5:.52),N=nodes.length;
   nodes.forEach(function(n,i){var a=i*2*Math.PI/N+t*.00013,s=(mob?.4:.5)+.64*(1+Math.sin(a))/2,w=sizes[i%sizes.length]*(mob?.72:1);n.style.width=w+"px";n.style.opacity=1;
    n.style.transform="translate("+(cx+rx*Math.cos(a)-w/2)+"px,"+(cy-ry*Math.sin(a)-w/2)+"px) scale("+s.toFixed(3)+")";n.style.zIndex=Math.round(s*100)})}
@@ -54,18 +101,18 @@ if(pg==="home"){
  fa.src="img/"+C.coin[0][0];fb.src="img/"+C.coin[1%C.coin.length][0];cap.textContent=C.coin[0][1];
  function flip(){var nx=(ci+1)%C.coin.length,hidden=flips%2===0?fb:fa;hidden.src="img/"+C.coin[nx][0];cap.textContent=C.coin[nx][1];deg+=540;coin.style.transform="rotateY("+deg+"deg)";ci=nx;flips++}
  new IntersectionObserver(function(e,o){if(e[0].isIntersecting){cs.classList.add("go");o.disconnect();if(!still)setTimeout(function(){flip();setInterval(flip,4600)},3200)}},{threshold:.35}).observe(cs);
- $("hcats").innerHTML=C.categories.map(function(c){return '<a href="menu.html#'+c.id+'">'+c.name+"</a>"}).join("");
+ $("hcats").innerHTML=C.categories.map(function(c){return '<a href="menu.html#'+encodeURIComponent(c.id)+'">'+cmsText(c.name)+"</a>"}).join("");
 }
-/* ---------- menu page: category chips with menu overlay on selected image ----------
+/* ---------- menu page: category chips with menu overlay on selected image ---------- */
 if(pg==="menu"){
  var cats=C.categories,cur=(location.hash||"#"+cats[0].id).slice(1);
  if(!cats.some(function(c){return c.id===cur}))cur=cats[0].id;
- function dish(d){return '<div class="it"><div class="l"><h4>'+d[0]+'</h4><i></i>'+(d[2]?'<b>'+d[2]+'</b>':'')+'</div>'+(d[1]?'<p>'+d[1]+'</p>':'')+'</div>'}
+ function dish(d){return '<div class="it"><div class="l"><h4>'+cmsText(d[0])+'</h4><i></i>'+(d[2]?'<b>'+cmsText(d[2])+'</b>':'')+'</div>'+(d[1]?'<p>'+cmsText(d[1])+'</p>':'')+'</div>'}
  function draw(){
   var c=cats.filter(function(x){return x.id===cur})[0];
-  $('tabs').innerHTML=cats.map(function(x){return '<button class="tab" type="button" role="tab" aria-selected="'+(x.id===cur)+'" data-id="'+x.id+'">'+x.name+'</button>'}).join('');
+  $('tabs').innerHTML=cats.map(function(x){return '<button class="tab" type="button" role="tab" aria-selected="'+(x.id===cur)+'" data-id="'+cmsText(x.id)+'">'+cmsText(x.name)+'</button>'}).join('');
   $('mlist').innerHTML=c.dishes.map(dish).join('');
-  $('menuStage').style.backgroundImage='url("img/'+(c.cover||c.pics[0][0])+'")';
+  $('menuStage').style.backgroundImage='url("'+cmsAsset(c.cover||(c.pics[0]&&c.pics[0][0]))+'")';
   $('menuEyebrow').textContent=c.name+' · menu';
  }
  $('tabs').addEventListener('click',function(e){var id=e.target.getAttribute('data-id');if(id&&cats.some(function(c){return c.id===id})){cur=id;history.replaceState(null,'','#'+id);draw()}});
@@ -73,7 +120,7 @@ if(pg==="menu"){
 }
 /* ---------- gallery ---------- */
 if(pg==="gallery"){
- $("gal").innerHTML=C.photos.map(function(p,i){return '<img src="img/'+p+'" alt="Hightable Gardens photo '+(i+1)+'" loading="lazy">'}).join("");
+ $("gal").innerHTML=C.photos.map(function(p,i){return '<img src="'+cmsAsset(p)+'" alt="Hightable Gardens photo '+(i+1)+'" loading="lazy">'}).join("");
  var play='<span class="pl"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>';
  $("rls").innerHTML=C.videos.map(function(u,i){if(/\.(mp4|webm)(\?|$)/i.test(u))return '<video controls playsinline preload="metadata" src="'+u+'"></video>';
   var cv=C.videoCovers[i%C.videoCovers.length];return '<a class="rl" href="'+u+'" target="_blank" rel="noopener" style="background-image:linear-gradient(180deg,rgba(10,10,10,.25),rgba(10,10,10,.8)),url(img/'+cv+')">'+play+"<b>Watch reel</b><small>on "+(/instagram/.test(u)?"Instagram":"TikTok")+"</small></a>"}).join("");

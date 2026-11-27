@@ -156,3 +156,16 @@ header.open .mn{display:block}.mn{position:absolute;left:0;right:0;top:100%;back
  .menu-content .it{padding:10px 0}
  .menu-content .it h4{font-size:18px}
 }
+
+
+/* CMS-managed circle badges stay attached to their moving circle */
+.orbit-badge{position:absolute;right:4%;top:-2%;z-index:5;display:block;max-width:58%;padding:7px 11px;border:1px solid transparent;border-radius:4px;font:700 11px/1.2 var(--n);letter-spacing:.06em;text-align:center;white-space:pre-line;overflow-wrap:anywhere;box-shadow:0 5px 12px #0008;transform:rotate(var(--badge-rotation,8deg));pointer-events:none}
+.orbit-badge.ribbon{border-radius:3px 3px 12px 3px;clip-path:polygon(0 0,100% 0,100% 100%,12% 100%,0 78%)}
+.orbit-badge.sticker{border-radius:999px;padding:9px 12px}
+.orbit-badge.badge{border-radius:999px}
+.orbit-badge.price-tag{border-radius:3px 3px 10px 3px}
+@keyframes badgeWobble{0%,100%{rotate:0deg}25%{rotate:-5deg}75%{rotate:5deg}}
+@keyframes badgeShake{0%,100%{translate:0 0}25%{translate:-2px 1px}50%{translate:2px -1px}75%{translate:-1px -1px}}
+.orbit-badge.badge-wobble{animation:badgeWobble 2.2s ease-in-out infinite}
+.orbit-badge.badge-shake{animation:badgeShake .45s ease-in-out infinite}
+@media(prefers-reduced-motion:reduce){.orbit-badge.badge-wobble,.orbit-badge.badge-shake{animation:none}}
