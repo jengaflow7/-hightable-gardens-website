@@ -19,8 +19,8 @@ try{
     var d=row.data||{},name=String(d.name||d.title||"Menu"),slug=String(d.slug||name.toLowerCase().trim().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"")),key=slug||String(row.id);
     var keys=[String(row.id),key,name.toLowerCase(),name.toLowerCase().trim().replace(/[^a-z0-9]+/g,"-")];
     var matched=items.filter(function(item){
-     var x=item.data||{};if(x.active===false)return false;var refs=[x.category_id,x.category,x.category_slug,x.category_name].filter(function(v){return v!==undefined&&v!==null&&String(v).trim()!==""}).map(function(v){var raw=String(v).toLowerCase().trim();return [raw,raw.replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"")];}).reduce(function(all,arr){return all.concat(arr);},[]);
-     return refs.some(function(v){return keys.some(function(k){var normalized=String(k).toLowerCase().trim();return normalized===v||normalized.replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"")===v;});});
+     var x=item.data||{};if(x.active===false)return false;var refs=[x.category_id,x.category,x.category_slug,x.category_name,x.menu_category,x.menu_category_id].filter(function(v){return v!==undefined&&v!==null&&String(v).trim()!==""}).map(function(v){var raw=String(v).toLowerCase().trim(),slug=raw.replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");return [raw,slug];}).reduce(function(all,arr){return all.concat(arr);},[]);
+     return refs.some(function(v){return keys.some(function(k){var normalized=String(k).toLowerCase().trim(),slug=normalized.replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");return normalized===v||slug===v||normalized.indexOf(v)>=0||v.indexOf(normalized)>=0||slug.indexOf(v)>=0||v.indexOf(slug)>=0;});});
     }).sort(function(a,b){return (Number((a.data||{}).sort_order)||0)-(Number((b.data||{}).sort_order)||0);});
     var dishes=matched.map(function(item){
      var x=item.data||{};return {name:x.name||x.title||"",description:x.description||"",price:x.price==null?"":x.price,image:cmsAsset(x.image||x.photo||x.cover),available:x.available!==false&&x.active!==false,featured:!!x.featured,showInList:x.showInList!==false,sort_order:Number(x.sort_order)||0,badge:x.badge||{}};
@@ -185,7 +185,7 @@ if(pg==="menu"){
   $('tabs').innerHTML=cats.map(function(x){return '<button class="tab" type="button" role="tab" aria-selected="'+(x.id===cur)+'" data-id="'+escapeMenu(x.id)+'">'+escapeMenu(x.name)+'</button>'}).join('');
   var allDishes=(c.dishes||[]).filter(function(d){return !(d&&typeof d==="object"&&!Array.isArray(d)&&d.available===false);}).slice().sort(function(a,b){return Number((a&&a.sort_order)||0)-Number((b&&b.sort_order)||0);});
   var featured=allDishes.filter(function(d){return d&&typeof d==="object"&&!Array.isArray(d)&&d.featured===true;});
-  var dishes=allDishes.filter(function(d){return !(d&&typeof d==="object"&&!Array.isArray(d)&&d.showInList===false);}).sort(function(a,b){return Number((a&&a.sort_order)||0)-Number((b&&b.sort_order)||0);});
+  var dishes=allDishes.slice().sort(function(a,b){return Number((a&&a.sort_order)||0)-Number((b&&b.sort_order)||0);});
   $('menuFeatured').innerHTML=featured.length?'<div class="menu-feature-grid">'+featured.map(featuredDish).join('')+'</div>':'';
   $('mlist').innerHTML=dishes.length?dishes.map(menuListDish).join(''):'<div class="menu-empty">No dishes have been added to this category yet.</div>';
   var bg=c.background||c.background_image||c.cover;
