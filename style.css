@@ -694,3 +694,6 @@ header .mn a:active{
 .menu-content .it{display:block!important;visibility:visible!important;opacity:1!important;position:relative;}
 .menu-content .it .l{visibility:visible!important;opacity:1!important;}
 .menu-content .it h4,.menu-content .it b,.menu-content .it p{visibility:visible!important;opacity:1!important;}
+
+/* CMS career-card image support */
+.career-image{width:100%;aspect-ratio:16/9;overflow:hidden;background:#161819}.career-image img{display:block;width:100%;height:100%;object-fit:cover;object-position:center}
