@@ -160,7 +160,7 @@ if(pg==="gallery"){
 if(pg==="contact"){
  try{$("d").min=new Date().toISOString().slice(0,10)}catch(e){}
  $("ct2").href="tel:+"+C.phone2;$("ce").href="mailto:"+C.email;$("ce").lastChild.textContent=C.email;
- $("f").addEventListener("submit",function(e){e.preventDefault();var t="Hello Hightable Gardens, I’d like to reserve a table.\nName: "+$("n").value+"\nDate: "+$("d").value+"\nTime: "+$("t").value+"\nGuests: "+$("g").value;$("msg").textContent="Opening WhatsApp…";window.open(wa+"?text="+encodeURIComponent(t),"_blank")});
+ var occasion=$("occasion"),customWrap=$("customOccasionWrap"),customInput=$("customOccasion");function syncCustom(){customWrap.hidden=occasion.value!=="Custom";customInput.required=occasion.value==="Custom";}occasion.addEventListener("change",syncCustom);syncCustom();\n $("f").addEventListener("submit",function(e){e.preventDefault();var kind=occasion.value==="Custom"?(customInput.value.trim()||"Custom"):occasion.value;var t="Hello Hightable Gardens, I’d like to reserve a table.\nOccasion: "+kind+"\nName: "+$("n").value+"\nDate: "+$("d").value+"\nTime: "+$("t").value+"\nGuests: "+$("g").value;$("msg").textContent="Opening WhatsApp…";window.open(wa+"?text="+encodeURIComponent(t),"_blank")});
  if(location.hash){var el=document.querySelector(location.hash);if(el)setTimeout(function(){el.scrollIntoView()},60)}
 }
 })();
