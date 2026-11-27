@@ -242,3 +242,23 @@ header.open .mn{display:block}.mn{position:absolute;left:0;right:0;top:100%;back
 
 /* Reservation form: image backdrop with a lower frosted-glass detail card */
 #book{position:relative;isolation:isolate;overflow:hidden;padding:clamp(18px,3vw,34px);border-radius:20px;border:1px solid rgba(245,179,36,.22);background:linear-gradient(180deg,rgba(10,12,13,.12),rgba(10,12,13,.5)),url("img/booth.jpg") center/cover;box-shadow:0 22px 50px #0005}#book::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,7,8,.16),rgba(6,7,8,.48));backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);z-index:-1}#book>h2,#book>p,#book>form{position:relative;z-index:1}#book form{margin-top:22px;padding:clamp(14px,2vw,24px);border-radius:15px;background:rgba(12,14,15,.64);border:1px solid rgba(255,255,255,.18);box-shadow:0 10px 35px #0004;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}#book form label{color:#e5d6b4}#book form input,#book form select{background:rgba(9,10,11,.68);border-color:#ffffff30}@media(max-width:700px){#book{padding:16px;border-radius:14px}#book form{padding:12px;gap:11px}}
+
+
+/* Header refinement: larger brand mark and paired actions */
+header .lg img{width:88px;height:88px}
+.header-actions{display:flex;align-items:center;justify-content:flex-end;gap:10px}
+.header-actions .bt{white-space:nowrap}
+.header-order{background:transparent;color:var(--y);border-color:var(--y)}
+.header-order:hover{background:var(--y);color:#1a1205}
+@media(max-width:860px){
+ header .w{grid-template-columns:1fr auto 1fr;gap:8px;height:82px;padding-left:14px;padding-right:14px}
+ header .lg img{width:72px;height:72px}
+ .header-actions{gap:6px}
+ .header-actions .bt{font-size:9px;letter-spacing:.04em;padding:10px 10px;border-width:1px}
+}
+@media(max-width:390px){
+ header .w{gap:4px;padding-left:9px;padding-right:9px}
+ .header-actions{gap:4px}
+ .header-actions .bt{font-size:8px;padding:9px 7px}
+ .mb{padding:8px 9px;font-size:10px}
+}
