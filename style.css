@@ -686,3 +686,11 @@ header .mn a:active{
 @media(prefers-reduced-motion:reduce){
   #coinsec .coin-sparkle{animation:none;opacity:.8}
 }
+
+/* Menu visibility stability: keep the menu stage and dish list from collapsing or being hidden by conflicting overrides. */
+.menu-stage{display:block!important;min-height:620px;overflow:visible!important;}
+.menu-content{display:block!important;visibility:visible!important;opacity:1!important;position:relative;z-index:2;}
+.menu-content .mlist{display:block!important;visibility:visible!important;opacity:1!important;min-height:1px;}
+.menu-content .it{display:block!important;visibility:visible!important;opacity:1!important;position:relative;}
+.menu-content .it .l{visibility:visible!important;opacity:1!important;}
+.menu-content .it h4,.menu-content .it b,.menu-content .it p{visibility:visible!important;opacity:1!important;}
