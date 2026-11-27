@@ -431,3 +431,15 @@ header .w{height:78px;gap:18px}header .lg{justify-self:center}header .mb{display
 @keyframes dlCornerToCorner{0%,8%{left:-42px!important;top:10px!important;opacity:0;transform:rotate(-8deg)}12%{opacity:.88}46%{left:calc(100% - 34px)!important;top:calc(100% - 42px)!important;opacity:.9;transform:rotate(7deg)}58%,100%{left:calc(100% + 42px)!important;top:calc(100% - 24px)!important;opacity:0;transform:rotate(0)}}
 @media(max-width:700px){.dl{padding:28px 0!important}.dl .w{padding:24px 18px!important}.dl::before{font-size:27px!important}}
 @media(prefers-reduced-motion:reduce){.dl::before{animation:none!important;opacity:0!important}}
+
+/* DELIVERY CARD — rebuilt with a dedicated scooter element */
+.dl{position:relative!important;display:block!important;width:100%!important;overflow:hidden!important;isolation:isolate!important;padding:44px 0!important;text-align:center!important;color:#fff!important;background:linear-gradient(110deg,#a71d08 0%,#c92308 46%,#ff4a05 100%)!important;border:0!important}
+.dl::before,.dl::after,.dl .w::before,.dl .w::after{content:none!important;display:none!important;animation:none!important;background:none!important;box-shadow:none!important}
+.dl-content{position:relative!important;z-index:2!important;display:block!important;max-width:940px!important;padding:24px!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important}
+.dl h3{color:#fff!important;margin:0 0 12px!important;text-shadow:0 3px 12px rgba(0,0,0,.12)!important}
+.dl p{color:#fff!important;margin:0 auto 20px!important}
+.dl .bt{display:inline-block!important;background:#17130b!important;border-color:#17130b!important;color:#e6b84e!important}
+.dl-scooter{position:absolute!important;left:-44px!important;top:12px!important;z-index:1!important;display:block!important;font-size:34px!important;line-height:1!important;opacity:0!important;filter:drop-shadow(0 5px 5px rgba(0,0,0,.4))!important;pointer-events:none!important;animation:dlScooterTravel 8s linear infinite!important}
+@keyframes dlScooterTravel{0%{left:-44px;top:12px;opacity:0;transform:rotate(-8deg)}8%{opacity:.9}45%{left:calc(100% - 38px);top:calc(100% - 42px);opacity:.9;transform:rotate(8deg)}58%,100%{left:calc(100% + 44px);top:calc(100% - 24px);opacity:0;transform:rotate(0)}}
+@media(max-width:700px){.dl{padding:28px 0!important}.dl-content{padding:22px 16px!important}.dl-scooter{font-size:27px!important}}
+@media(prefers-reduced-motion:reduce){.dl-scooter{animation:none!important;display:none!important}}
