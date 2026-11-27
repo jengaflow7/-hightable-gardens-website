@@ -28,6 +28,11 @@ try{
     if(!dishes.length&&Array.isArray(d.dishes))dishes=d.dishes;
     return {id:key,name:name,cover:cmsAsset(d.background_image||d.cover||d.image),pics:[],dishes:dishes};
    });
+   /* Fallback: if CMS category links fail completely, expose all active menu items in the first category instead of an empty list. */
+   if(!C.categories.some(function(cat){return Array.isArray(cat.dishes)&&cat.dishes.length;})){
+    var fallback=(items||[]).filter(function(row){var x=row.data||{};return x.active!==false&&x.available!==false;}).sort(function(a,b){return (Number((a.data||{}).sort_order)||0)-(Number((b.data||{}).sort_order)||0);}).map(function(row){var x=row.data||{};return {name:x.name||x.title||\"\",description:x.description||\"\",price:x.price==null?\"\":x.price,image:cmsAsset(x.image||x.photo||x.cover),available:true,featured:!!x.featured,showInList:true,sort_order:Number(x.sort_order)||0,badge:x.badge||{}};}).filter(function(d){return d.name;});
+    if(fallback.length&&C.categories.length)C.categories[0].dishes=fallback;
+   }
   }
   var photos=(groups.gallery||[]).map(function(row){var d=row.data||{};return cmsAsset(d.image||d.src||d.file)}).filter(Boolean);
   if(photos.length)C.photos=photos;
