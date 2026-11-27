@@ -266,204 +266,27 @@ header .w{height:78px;gap:18px}header .lg{justify-self:center}header .mb{display
 @media(max-width:700px){.dl::before{font-size:54px;top:35%}.dl::after{font-size:38px;bottom:12px;left:12px}}
 @media(prefers-reduced-motion:reduce){.dl::before,.dl::after{animation:none!important;opacity:0!important;transform:none!important}}
 
-/* Cinematic delivery story: faceless rider silhouette, then Narok route map */
-.dl{position:relative;overflow:hidden}
-.dl::before{
- content:"";position:absolute;left:-38%;top:24%;width:clamp(210px,32vw,360px);height:clamp(120px,20vw,220px);
- background-repeat:no-repeat;background-position:center;background-size:contain;
- background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 420 220'%3E%3C!-- side-view scooter and rider, deliberately faceless --%3E%3Cg fill='%23d9d0b7' stroke='%23171918' stroke-width='5' stroke-linejoin='round'%3E%3Ccircle cx='92' cy='175' r='37' fill='%23191d1d' stroke='%23c7a45b' stroke-width='4'/%3E%3Ccircle cx='330' cy='175' r='37' fill='%23191d1d' stroke='%23c7a45b' stroke-width='4'/%3E%3Ccircle cx='92' cy='175' r='17' fill='%23c5c8c4'/%3E%3Ccircle cx='330' cy='175' r='17' fill='%23c5c8c4'/%3E%3Cpath d='M92 175L142 134L198 164L330 175L302 113L258 113L220 148L180 146L160 175Z' fill='%23252b29'/%3E%3Cpath d='M225 151L265 106L300 106L330 175L252 175Z' fill='%23333b37'/%3E%3Cpath d='M182 141L232 141L252 154L216 162Z' fill='%23d0b26b'/%3E%3Cpath d='M140 136L173 121L212 124L231 142L208 156L164 151Z' fill='%232b3431'/%3E%3Cpath d='M165 121L143 89L170 73L198 90L205 124Z' fill='%232b3431'/%3E%3Cpath d='M151 90L139 69L149 52L177 47L197 62L196 82L174 91Z' fill='%231e2524'/%3E%3Cpath d='M145 64Q143 38 169 33Q193 32 199 57L191 69L151 72Z' fill='%23c7a45b'/%3E%3Cpath d='M175 95L214 108L230 137L214 145L197 123L158 111Z' fill='%232a3531'/%3E%3Cpath d='M158 111L137 145L120 148L112 135L136 101Z' fill='%232a3531'/%3E%3Cpath d='M202 126L218 145L214 158L193 157L181 140Z' fill='%23c7a45b'/%3E%3Cpath d='M137 146L150 151L142 167L123 165Z' fill='%23d9d0b7'/%3E%3Cpath d='M200 158L224 158L230 172L210 178L194 170Z' fill='%23d9d0b7'/%3E%3Cpath d='M251 112L300 112L302 139L251 139Z' fill='%23c7a45b'/%3E%3Cpath d='M257 116L296 116L296 135L257 135Z' fill='%231a211f'/%3E%3Ctext x='276' y='128' font-family='Arial' font-size='8' text-anchor='middle' fill='%23e5d5ac'%3EHIGHTABLE%3C/text%3E%3C/g%3E%3C/svg%3E");
- filter:drop-shadow(0 9px 9px rgba(0,0,0,.4));opacity:0;z-index:1;
- animation:dlRiderStory 10s ease-in-out infinite;pointer-events:none
-}
-.dl::after{
- content:"";position:absolute;left:8%;top:10%;width:84%;height:80%;border-radius:12px;
- background-color:rgba(15,21,23,.4);
- background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 360'%3E%3Crect width='600' height='360' fill='%232a3634'/%3E%3Cg stroke='%23c7b991' stroke-opacity='.28' stroke-width='3' fill='none'%3E%3Cpath d='M-20 60L100 15L160 80L255 20L360 90L440 30L620 120M-10 150L90 120L155 185L250 145L330 205L450 150L610 230M-20 280L80 240L160 310L260 255L350 320L470 260L610 340M55-10L40 90L95 180L80 330M190-20L180 100L230 210L200 370M330-20L310 80L360 180L340 360M470-20L455 90L505 200L485 360'/%3E%3C/g%3E%3Cg stroke='%23d6bd78' stroke-width='7' fill='none' stroke-linecap='round'%3E%3Cpath d='M80 285Q140 230 215 245T325 170T440 105' stroke-dasharray='11 10'/%3E%3C/g%3E%3Cg transform='translate(440 105)'%3E%3Cpath d='M0 0C-25 0-45 20-45 45C-45 78 0 130 0 130S45 78 45 45C45 20 25 0 0 0Z' fill='%23c94e40'/%3E%3Ccircle cx='0' cy='43' r='16' fill='%23f4e4c1'/%3E%3C/g%3E%3Ctext x='28' y='40' fill='%23e8d8b0' font-size='22' font-family='Arial' letter-spacing='4'%3ENAROK%3C/text%3E%3C/svg%3E");
- background-position:center;background-size:cover;background-repeat:no-repeat;
- border:1px solid rgba(220,190,120,.35);box-shadow:0 12px 32px rgba(0,0,0,.35);
- opacity:0;transform:translateY(12px) scale(.96);z-index:1;
- animation:dlMapStory 10s ease-in-out infinite;pointer-events:none
-}
-.dl .w{position:relative;z-index:2}
-@keyframes dlRiderStory{
- 0%,5%{opacity:0;transform:translateX(0) scale(.82)}
- 12%{opacity:1;transform:translateX(12%) scale(1)}
- 32%{opacity:1;transform:translateX(55%) scale(1)}
- 43%,49%{opacity:0;transform:translateX(145%) scale(.96)}
- 50%,100%{opacity:0;transform:translateX(145%) scale(.96)}
-}
-@keyframes dlMapStory{
- 0%,45%{opacity:0;transform:translateY(16px) scale(.95)}
- 53%{opacity:.2;transform:translateY(5px) scale(.98)}
- 63%{opacity:.9;transform:translateY(0) scale(1)}
- 70%,92%{opacity:1;transform:translateY(0) scale(1)}
- 100%{opacity:0;transform:translateY(-6px) scale(1.02)}
-}
-@media(max-width:700px){.dl::before{width:220px;height:125px;left:-45%;top:32%}.dl::after{left:5%;top:18%;width:90%;height:64%}}
-@media(prefers-reduced-motion:reduce){.dl::before,.dl::after{animation:none!important;opacity:0!important}}
 
-/* Delivery animation fix: visible full scooter travel + compact corner map */
-.dl{position:relative;overflow:hidden;isolation:isolate}
-.dl::before{
- content:"🛵";position:absolute;left:-22%;top:32%;font-size:clamp(70px,9vw,112px);line-height:1;
- white-space:nowrap;filter:drop-shadow(0 5px 8px rgba(0,0,0,.4));opacity:0;z-index:1;
- animation:dlBrandedScooter 10s linear infinite;pointer-events:none
-}
-.dl::after{
- content:"";position:absolute;left:3%;bottom:5%;width:clamp(150px,34%,280px);height:clamp(90px,12vw,150px);
- border-radius:8px;background:#e8e4db;
- background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 900 300'%3E%3Crect width='900' height='300' fill='%23e8e4db'/%3E%3Cg fill='none' stroke-linecap='round'%3E%3Cpath stroke='%23c9d7c3' stroke-width='34' d='M-30 80C120 25 190 125 310 72S525 45 640 112S780 220 930 160'/%3E%3Cpath stroke='%23c9d7c3' stroke-width='24' d='M80 330Q180 210 230 140T400-30M580 330Q610 220 720 160T850-20'/%3E%3Cpath stroke='%23fff' stroke-width='17' d='M-20 210L140 170L280 205L430 130L580 170L740 95L920 120M180-20L230 65L300 115L350 290M520-20L470 90L510 210L560 320'/%3E%3Cpath stroke='%23d5c8b2' stroke-width='7' d='M-10 145L120 110L240 150L380 80L520 115L680 45L900 70M20 265L190 220L350 260L500 200L660 235L880 185'/%3E%3C/g%3E%3Cpath d='M150 220C250 180 320 225 420 170S550 150 650 95' fill='none' stroke='%239a7bc4' stroke-width='9' stroke-linecap='round' stroke-dasharray='16 13'/%3E%3Cg transform='translate(145 90)'%3E%3Cpath d='M0 0C-32 0-58 26-58 58C-58 99 0 157 0 157S58 99 58 58C58 26 32 0 0 0Z' fill='%237b45b5'/%3E%3Ccircle cx='0' cy='57' r='21' fill='%23f5eee8'/%3E%3C/g%3E%3Ctext x='255' y='42' font-family='Arial,sans-serif' font-size='25' font-weight='700' letter-spacing='5' fill='%233d463d'%3ENAROK%3C/text%3E%3C/svg%3E";
- background-size:cover;background-position:center;background-repeat:no-repeat;
- border:1px solid rgba(135,105,165,.4);box-shadow:0 9px 22px rgba(0,0,0,.3);
- opacity:0;transform:perspective(500px) rotateX(48deg) translateY(12px);transform-origin:bottom left;z-index:1;
- animation:dlCompactMap 10s ease-in-out infinite;pointer-events:none
-}
-.dl .w{position:relative;z-index:2}
-@keyframes dlBrandedScooter{
- 0%,5%{opacity:0;transform:translateX(0) scale(.88)}
- 10%{opacity:1;transform:translateX(8vw) scale(1)}
- 43%{opacity:1;transform:translateX(110vw) scale(1)}
- 48%,100%{opacity:0;transform:translateX(120vw) scale(.96)}
-}
-@keyframes dlCompactMap{
- 0%,45%{opacity:0;transform:perspective(500px) rotateX(48deg) translateY(12px)}
- 52%{opacity:.55;transform:perspective(500px) rotateX(48deg) translateY(3px)}
- 60%,86%{opacity:1;transform:perspective(500px) rotateX(48deg) translateY(0)}
- 94%,100%{opacity:0;transform:perspective(500px) rotateX(48deg) translateY(-5px)}
-}
-@media(max-width:700px){
- .dl::before{left:-25%;top:34%;font-size:74px}
- .dl::after{left:3%;bottom:4%;width:43%;height:96px}
-}
-@media(prefers-reduced-motion:reduce){
- .dl::before{animation:none!important;opacity:.15!important;left:0!important;top:35%!important;transform:none!important}
- .dl::after{animation:none!important;opacity:.9!important;transform:perspective(500px) rotateX(48deg)!important}
-}
-
-/* Sequential delivery animation: scooter, tabletop Narok map, then branded groceries */
-.dl::after{animation:dlCompactMap 10s ease-in-out infinite!important}
-@keyframes dlCompactMap{
- 0%,45%{opacity:0;transform:perspective(600px) rotateX(58deg) translateY(16px)}
- 50%{opacity:.65;transform:perspective(600px) rotateX(58deg) translateY(4px)}
- 54%,68%{opacity:1;transform:perspective(600px) rotateX(58deg) translateY(0)}
- 73%,100%{opacity:0;transform:perspective(600px) rotateX(58deg) translateY(-8px)}
-}
-.dl .w::after{
- content:"";position:absolute;right:2%;bottom:1%;width:clamp(120px,21vw,210px);height:clamp(115px,19vw,190px);
- background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 230'%3E%3Cpath d='M50 78L65 34L92 64L112 16L139 61L161 29L178 81Z' fill='%235d914a'/%3E%3Cpath d='M65 58Q42 28 58 12Q82 18 89 48Z' fill='%2377ad58'/%3E%3Cpath d='M112 58Q103 23 131 7Q152 30 139 60Z' fill='%2379a94d'/%3E%3Ccircle cx='40' cy='72' r='23' fill='%23e59a35' stroke='%23bd7026' stroke-width='3'/%3E%3Cpath d='M187 71Q168 45 190 27Q214 38 208 63Z' fill='%23c9433d'/%3E%3Cpath d='M30 83L192 83L177 216L45 216Z' fill='%23b88e58' stroke='%238a6338' stroke-width='4'/%3E%3Cpath d='M78 87Q80 45 111 45Q142 45 144 87' fill='none' stroke='%238a6338' stroke-width='9' stroke-linecap='round'/%3E%3Crect x='61' y='116' width='101' height='62' rx='4' fill='%2328322a'/%3E%3Ctext x='111' y='138' text-anchor='middle' font-family='Georgia' font-size='13' font-weight='bold' fill='%23d7b76d'%3EHIGH TABLE%3C/text%3E%3Ctext x='111' y='153' text-anchor='middle' font-family='Arial' font-size='9' letter-spacing='2' fill='%23f3e8cc'%3EGARDENS%3C/text%3E%3Ctext x='111' y='166' text-anchor='middle' font-family='Arial' font-size='8' fill='%23f3e8cc'%3ENAMAIYANA%3C/text%3E%3C/svg%3E");
- background-position:center;background-size:contain;background-repeat:no-repeat;
- opacity:0;z-index:4;pointer-events:none;filter:drop-shadow(0 8px 12px rgba(0,0,0,.32));
- animation:dlFoodBag 10s ease-in-out infinite
-}
-@keyframes dlFoodBag{
- 0%,69%{opacity:0;transform:translateY(18px) scale(.9)}
- 76%{opacity:1;transform:translateY(0) scale(1)}
- 80%,92%{opacity:1;transform:translateY(0) scale(1)}
- 98%,100%{opacity:0;transform:translateY(8px) scale(.97)}
-}
-@media(max-width:700px){.dl .w::after{right:2%;bottom:1%;width:124px;height:118px}}
-@media(prefers-reduced-motion:reduce){.dl .w::after{animation:none!important;opacity:.95!important;transform:none!important}}
-
-/* Delivery card sequence — cleaned final override */
-.dl{position:relative;overflow:hidden;isolation:isolate}
-.dl .w{position:relative;isolation:isolate;z-index:1}
-.dl::before{z-index:0!important;animation:dlBrandedScooter 10s linear infinite!important}
-.dl::after{z-index:0!important;animation:dlCompactMap 10s ease-in-out infinite!important}
-.dl .w::after{
- content:"";position:absolute;right:2%;bottom:1%;width:clamp(118px,19vw,190px);height:clamp(112px,18vw,180px);
- z-index:0;pointer-events:none;filter:drop-shadow(0 7px 10px rgba(0,0,0,.28));
- background-image:
-  url("https://raw.githubusercontent.com/jengaflow7/-hightable-gardens-website/premium-experience-upgrade/img/logo.png"),
-  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 230'%3E%3Cpath d='M50 78L65 34L92 64L112 16L139 61L161 29L178 81Z' fill='%235d914a'/%3E%3Cpath d='M65 58Q42 28 58 12Q82 18 89 48Z' fill='%2377ad58'/%3E%3Cpath d='M112 58Q103 23 131 7Q152 30 139 60Z' fill='%2379a94d'/%3E%3Ccircle cx='40' cy='72' r='23' fill='%23e59a35' stroke='%23bd7026' stroke-width='3'/%3E%3Cpath d='M187 71Q168 45 190 27Q214 38 208 63Z' fill='%23c9433d'/%3E%3Cpath d='M30 83L192 83L177 216L45 216Z' fill='%23b88e58' stroke='%238a6338' stroke-width='4'/%3E%3Cpath d='M78 87Q80 45 111 45Q142 45 144 87' fill='none' stroke='%238a6338' stroke-width='9' stroke-linecap='round'/%3E%3C/svg%3E");
- background-position:center 54%,center;
- background-size:48% auto,contain;background-repeat:no-repeat;
- opacity:0;animation:dlFoodBag 10s ease-in-out infinite!important
-}
-.dl .w>*{position:relative;z-index:2}
-@media(max-width:700px){
- .dl::before{left:-25%;top:34%;font-size:54px}
- .dl::after{left:3%;bottom:4%;width:43%;height:96px}
- .dl .w::after{right:2%;bottom:1%;width:118px;height:112px;background-size:48% auto,contain}
-}
-@media(prefers-reduced-motion:reduce){
- .dl::before,.dl::after,.dl .w::after{animation:none!important;opacity:.18!important;transform:none!important}
- .dl .w::after{opacity:.85!important}
-}
-
-/* Delivery card redesign: premium, static, no requested animation elements */
-.dl{position:relative;isolation:isolate;overflow:hidden;padding:clamp(34px,5vw,64px) 0;text-align:left;color:#f7f2e8;background:radial-gradient(ellipse at 85% 15%,rgba(168,124,55,.2),transparent 40%),linear-gradient(135deg,#17191d 0%,#25232b 58%,#17191d 100%);border-top:1px solid rgba(213,174,103,.22);border-bottom:1px solid rgba(213,174,103,.22)}
-.dl::before,.dl::after,.dl .w::before,.dl .w::after{content:none!important;display:none!important;animation:none!important}
-.dl .w{position:relative;z-index:1;max-width:1080px;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:24px;padding:clamp(24px,4vw,42px);border:1px solid rgba(211,170,97,.28);border-radius:22px;background:linear-gradient(135deg,rgba(255,255,255,.055),rgba(255,255,255,.015));box-shadow:0 22px 55px rgba(0,0,0,.24)}
-.dl h3{font:400 clamp(32px,4vw,48px)/1.12 var(--sc);color:#e7bd71;margin:0 0 10px;text-shadow:none}
-.dl p{margin:0;color:#d4d0c9;max-width:48ch;line-height:1.75}
-.dl .bt{justify-self:end;white-space:nowrap;background:#c99a48;border:1px solid #c99a48;color:#1b1b1c;padding:14px 24px;border-radius:999px;font-weight:600;box-shadow:0 8px 24px rgba(201,154,72,.18);transition:transform .2s ease,background .2s ease}
-.dl .bt:hover{background:#e0b663;transform:translateY(-2px)}
-@media(max-width:700px){.dl{padding:26px 0}.dl .w{grid-template-columns:1fr;gap:20px;padding:24px 20px;border-radius:18px}.dl h3{font-size:clamp(32px,9vw,44px)}.dl .bt{justify-self:start;min-width:0;width:auto}}
-@media(prefers-reduced-motion:reduce){.dl *{animation:none!important;transition:none!important}}
-
-/* Delivery card: animated scooter + corner food composition */
-.dl{position:relative;overflow:hidden;isolation:isolate}
-.dl::before{content:"🛵";display:block!important;position:absolute!important;left:-120px;top:12%;font-size:clamp(54px,7vw,82px);opacity:1!important;z-index:1!important;filter:drop-shadow(0 10px 8px rgba(0,0,0,.45));animation:deliveryScooterRun 9s ease-in-out infinite!important;pointer-events:none}
-.dl::after{content:"🍗 🍖 🍟 🥗";display:block!important;position:absolute!important;right:clamp(8px,4vw,48px);bottom:8%;left:auto!important;top:auto!important;width:auto!important;height:auto!important;background:none!important;border:0!important;border-radius:0!important;box-shadow:none!important;font-size:clamp(28px,4.2vw,54px);line-height:1;white-space:nowrap;opacity:1!important;z-index:1!important;filter:drop-shadow(0 10px 12px rgba(0,0,0,.45));animation:deliveryFoodFloat 4s ease-in-out infinite!important;pointer-events:none}
-@keyframes deliveryScooterRun{0%,6%{transform:translateX(0) rotate(-7deg);opacity:0}12%{opacity:1}45%{transform:translateX(55vw) rotate(3deg);opacity:1}60%,100%{transform:translateX(110vw) rotate(0);opacity:0}}
-@keyframes deliveryFoodFloat{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-10px) rotate(2deg)}}
-@media(max-width:700px){.dl::before{top:18%;font-size:56px}.dl::after{right:12px;bottom:6%;font-size:30px}}
-@media(prefers-reduced-motion:reduce){.dl::before,.dl::after{animation:none!important}}
-
-
-/* Delivery card: restore the original small scooter glide, card-to-card diagonal */
-.dl{overflow:hidden!important;}
-.dl::before{content:"🛵"!important;display:block!important;position:absolute!important;left:-44px!important;top:14px!important;font-size:34px!important;line-height:1!important;opacity:0!important;z-index:0!important;filter:drop-shadow(0 4px 5px rgba(0,0,0,.38))!important;animation:dlCornerGlide 8s linear infinite!important;pointer-events:none!important;}
-.dl::after{content:none!important;display:none!important;animation:none!important;}
-.dl .w{overflow:hidden!important;}
-@keyframes dlCornerGlide{0%{left:-44px!important;top:14px!important;opacity:0;transform:rotate(-8deg)}8%{opacity:.82}45%{left:calc(100% - 34px)!important;top:calc(100% - 42px)!important;opacity:.9;transform:rotate(7deg)}55%,100%{left:calc(100% + 44px)!important;top:calc(100% - 28px)!important;opacity:0;transform:rotate(0)}}
-@media(max-width:700px){.dl::before{font-size:28px!important;left:-38px!important;top:12px!important}@keyframes dlCornerGlide{0%{left:-38px!important;top:12px!important;opacity:0;transform:rotate(-8deg)}8%{opacity:.82}45%{left:calc(100% - 28px)!important;top:calc(100% - 34px)!important;opacity:.9;transform:rotate(7deg)}55%,100%{left:calc(100% + 38px)!important;top:calc(100% - 20px)!important;opacity:0;transform:rotate(0)}}}
-@media(prefers-reduced-motion:reduce){.dl::before{animation:none!important;opacity:0!important}}
-
-/* FINAL DELIVERY CARD — clean original orange band, corner-to-corner scooter */
-.dl{position:relative!important;overflow:hidden!important;isolation:isolate!important;padding:46px 0!important;text-align:center!important;color:#fff!important;background:linear-gradient(110deg,#a71d08 0%,#c92308 46%,#ff4a05 100%)!important;border:0!important}
-.dl::after,.dl .w::before,.dl .w::after{content:none!important;display:none!important;animation:none!important;background:none!important;box-shadow:none!important}
-.dl::before{content:"🛵"!important;display:block!important;position:absolute!important;left:0!important;top:0!important;font-size:32px!important;line-height:1!important;opacity:0!important;z-index:1!important;filter:drop-shadow(0 4px 5px rgba(0,0,0,.42))!important;animation:dlCornerToCorner 8s linear infinite!important;pointer-events:none!important}
-.dl .w{position:relative!important;z-index:2!important;max-width:940px!important;display:block!important;padding:24px!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;overflow:visible!important}
-.dl h3{color:#fff!important;margin:0 0 12px!important;text-shadow:0 3px 12px rgba(0,0,0,.12)!important}
-.dl p{color:#fff!important;margin:0 auto 20px!important}
-.dl .bt{display:inline-block!important;justify-self:auto!important;background:#17130b!important;border-color:#17130b!important;color:#e6b84e!important}
-@keyframes dlCornerToCorner{0%,8%{left:-42px!important;top:10px!important;opacity:0;transform:rotate(-8deg)}12%{opacity:.88}46%{left:calc(100% - 34px)!important;top:calc(100% - 42px)!important;opacity:.9;transform:rotate(7deg)}58%,100%{left:calc(100% + 42px)!important;top:calc(100% - 24px)!important;opacity:0;transform:rotate(0)}}
-@media(max-width:700px){.dl{padding:28px 0!important}.dl .w{padding:24px 18px!important}.dl::before{font-size:27px!important}}
-@media(prefers-reduced-motion:reduce){.dl::before{animation:none!important;opacity:0!important}}
-
-/* DELIVERY CARD — rebuilt with a dedicated scooter element */
-.dl{position:relative!important;display:block!important;width:100%!important;overflow:hidden!important;isolation:isolate!important;padding:44px 0!important;text-align:center!important;color:#fff!important;background:linear-gradient(110deg,#a71d08 0%,#c92308 46%,#ff4a05 100%)!important;border:0!important}
-.dl::before,.dl::after,.dl .w::before,.dl .w::after{content:none!important;display:none!important;animation:none!important;background:none!important;box-shadow:none!important}
-.dl-content{position:relative!important;z-index:2!important;display:block!important;max-width:940px!important;padding:24px!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important}
-.dl h3{color:#fff!important;margin:0 0 12px!important;text-shadow:0 3px 12px rgba(0,0,0,.12)!important}
-.dl p{color:#fff!important;margin:0 auto 20px!important}
-.dl .bt{display:inline-block!important;background:#17130b!important;border-color:#17130b!important;color:#e6b84e!important}
-.dl-scooter{position:absolute!important;left:-44px!important;top:12px!important;z-index:1!important;display:block!important;font-size:34px!important;line-height:1!important;opacity:0!important;filter:drop-shadow(0 5px 5px rgba(0,0,0,.4))!important;pointer-events:none!important;animation:dlScooterTravel 8s linear infinite!important}
-@keyframes dlScooterTravel{0%{left:-44px;top:12px;opacity:0;transform:rotate(-8deg)}8%{opacity:.9}45%{left:calc(100% - 38px);top:calc(100% - 42px);opacity:.9;transform:rotate(8deg)}58%,100%{left:calc(100% + 44px);top:calc(100% - 24px);opacity:0;transform:rotate(0)}}
-@media(max-width:700px){.dl{padding:28px 0!important}.dl-content{padding:22px 16px!important}.dl-scooter{font-size:27px!important}}
-@media(prefers-reduced-motion:reduce){.dl-scooter{animation:none!important;display:none!important}}
-
-/* HARD RESET FOR DELIVERY CARD: override every legacy card/grid/pseudo style */
-html body main section.dl{display:block!important;position:relative!important;width:100%!important;min-height:210px!important;overflow:hidden!important;isolation:isolate!important;padding:36px 0!important;margin:0!important;border:0!important;border-radius:0!important;background:linear-gradient(110deg,#8f2118,#c5301f 48%,#e5502c)!important;box-shadow:none!important;text-align:center!important;color:#fff!important}
-html body main section.dl::before,html body main section.dl::after,html body main section.dl .w::before,html body main section.dl .w::after{content:none!important;display:none!important;visibility:hidden!important;animation:none!important;background:none!important;box-shadow:none!important}
-html body main section.dl>.dl-content{display:block!important;position:relative!important;z-index:2!important;width:100%!important;max-width:940px!important;margin:0 auto!important;padding:22px 24px!important;float:none!important;clear:both!important;grid-template:none!important;grid-column:auto!important;align-items:initial!important;gap:0!important;overflow:visible!important;background:transparent!important;background-image:none!important;border:0!important;border-radius:0!important;box-shadow:none!important;text-align:center!important}
-html body main section.dl h3{margin:0 0 12px!important;color:#fff!important;font:400 clamp(34px,5vw,56px)/1.12 var(--sc)!important;text-shadow:0 3px 12px #0002!important}
-html body main section.dl p{max-width:54ch!important;margin:0 auto 20px!important;color:#fff!important}
-html body main section.dl .bt{display:inline-block!important;justify-self:auto!important;background:#1a1205!important;border:2px solid #1a1205!important;color:var(--y)!important}
-html body main section.dl>.dl-scooter{display:block!important;position:absolute!important;left:0!important;top:10px!important;z-index:3!important;width:auto!important;height:auto!important;max-width:none!important;visibility:visible!important;opacity:0!important;font-size:34px!important;line-height:1!important;filter:drop-shadow(0 5px 6px rgba(0,0,0,.45))!important;pointer-events:none!important;animation:dlCleanScooter 6s linear infinite!important;transform:none!important}
-@keyframes dlCleanScooter{0%{opacity:0!important;transform:translate3d(-60px,0,0) rotate(-8deg)!important}8%{opacity:1!important;transform:translate3d(0,0,0) rotate(-8deg)!important}48%{opacity:1!important;transform:translate3d(calc(100vw - 70px),130px,0) rotate(8deg)!important}60%,100%{opacity:0!important;transform:translate3d(calc(100vw + 60px),160px,0) rotate(0)!important}}
-@media(max-width:700px){html body main section.dl{min-height:180px!important;padding:26px 0!important}html body main section.dl>.dl-content{padding:18px 14px!important}html body main section.dl>.dl-scooter{font-size:28px!important}}
-
-
-/* DELIVERY CARD HOTFIX 2026-11-27: remove legacy .w card styling entirely */
-html body main section.dl{display:block!important;position:relative!important;width:100%!important;min-height:210px!important;overflow:hidden!important;isolation:isolate!important;padding:36px 0!important;margin:0!important;border:0!important;border-radius:0!important;background:linear-gradient(110deg,#8f2118,#c5301f 48%,#e5502c)!important;box-shadow:none!important;text-align:center!important;color:#fff!important}
-html body main section.dl::before,html body main section.dl::after,html body main section.dl>.dl-content::before,html body main section.dl>.dl-content::after{content:none!important;display:none!important;visibility:hidden!important;animation:none!important;background:none!important;box-shadow:none!important}
-html body main section.dl>.dl-content{display:block!important;position:relative!important;z-index:2!important;width:calc(100% - 32px)!important;max-width:940px!important;margin:0 auto!important;padding:22px 24px!important;float:none!important;clear:both!important;grid-template:none!important;align-items:initial!important;gap:0!important;overflow:visible!important;background:transparent!important;background-image:none!important;border:0!important;border-radius:0!important;box-shadow:none!important;text-align:center!important}
-html body main section.dl>.dl-content h3{margin:0 0 12px!important;color:#fff!important;font:400 clamp(34px,5vw,56px)/1.12 var(--sc)!important;text-shadow:0 3px 12px #0002!important}
-html body main section.dl>.dl-content p{max-width:54ch!important;margin:0 auto 20px!important;color:#fff!important}
-html body main section.dl>.dl-content .bt{display:inline-block!important;justify-self:auto!important;background:#1a1205!important;border:2px solid #1a1205!important;color:var(--y)!important}
-html body main section.dl>.dl-scooter{display:block!important;position:absolute!important;left:0!important;top:10px!important;z-index:3!important;width:auto!important;height:auto!important;max-width:none!important;visibility:visible!important;opacity:0!important;font-size:clamp(30px,4vw,42px)!important;line-height:1!important;filter:drop-shadow(0 5px 6px rgba(0,0,0,.45))!important;pointer-events:none!important;animation:dlCleanScooter 6s linear infinite!important;transform:none!important}
-@keyframes dlCleanScooter{0%{opacity:0;transform:translate3d(-60px,0,0) rotate(-8deg)}8%{opacity:1;transform:translate3d(0,0,0) rotate(-8deg)}48%{opacity:1;transform:translate3d(calc(100vw - 70px),130px,0) rotate(8deg)}60%,100%{opacity:0;transform:translate3d(calc(100vw + 60px),160px,0) rotate(0)}}
-@media(max-width:700px){html body main section.dl{min-height:180px!important;padding:26px 0!important}html body main section.dl>.dl-content{width:calc(100% - 24px)!important;padding:18px 12px!important}html body main section.dl>.dl-scooter{font-size:28px!important}}
-@media(prefers-reduced-motion:reduce){html body main section.dl>.dl-scooter{animation:none!important;display:none!important}}
+/* DELIVERY STORY — clean single implementation */
+html body main section.dl{position:relative!important;display:block!important;width:100%!important;min-height:250px!important;overflow:hidden!important;isolation:isolate!important;padding:42px 0!important;margin:0!important;text-align:center!important;color:#fff!important;background:linear-gradient(110deg,#981f12 0%,#c52b13 48%,#ed480d 100%)!important;border:0!important;border-radius:0!important;box-shadow:none!important}
+html body main section.dl>.dl-content{position:relative!important;z-index:4!important;display:block!important;width:calc(100% - 32px)!important;max-width:900px!important;margin:0 auto!important;padding:20px!important;background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;text-align:center!important}
+html body main section.dl .dl-content h3{margin:0 0 12px!important;color:#fff!important;font:400 clamp(36px,5vw,56px)/1.1 var(--sc)!important}
+html body main section.dl .dl-content p{margin:0 auto 20px!important;color:#fff!important}
+html body main section.dl .dl-content .bt{display:inline-block!important;background:#17130b!important;border:2px solid #17130b!important;color:var(--y)!important}
+html body main section.dl>.dl-scooter{position:absolute!important;left:-70px!important;top:12px!important;z-index:5!important;display:block!important;font-size:clamp(38px,5vw,58px)!important;line-height:1!important;opacity:0!important;filter:drop-shadow(0 7px 7px #0008)!important;pointer-events:none!important;animation:dlScooterPass 7s linear infinite!important}
+html body main section.dl>.dl-map{position:absolute!important;left:5%!important;bottom:0!important;z-index:2!important;display:block!important;width:clamp(190px,26vw,300px)!important;height:132px!important;opacity:0!important;transform:perspective(700px) rotateX(62deg) translateY(22px)!important;transform-origin:bottom center!important;filter:drop-shadow(0 13px 10px #0007)!important;animation:dlMapReveal 7s ease-in-out infinite!important;pointer-events:none!important}
+html body main section.dl>.dl-map svg{display:block!important;width:100%!important;height:100%!important;overflow:visible!important}
+html body main section.dl .map-land{fill:#e9e1cf;stroke:#b6a98f;stroke-width:3}
+html body main section.dl .map-road{fill:none;stroke:#b8b09f;stroke-width:5;stroke-linecap:round}
+html body main section.dl .map-route{fill:none;stroke:#8c56b5;stroke-width:7;stroke-linecap:round;stroke-dasharray:10 8}
+html body main section.dl .map-pin{fill:#743caf;stroke:#fff;stroke-width:3}
+html body main section.dl .map-pin-core{fill:#fff}
+html body main section.dl .dl-map text{font: bold 16px Arial,sans-serif;letter-spacing:4px;fill:#3e493e}
+html body main section.dl>.dl-foodbag{position:absolute!important;right:5%!important;bottom:5px!important;z-index:3!important;display:block!important;width:clamp(105px,15vw,165px)!important;height:150px!important;opacity:0!important;filter:drop-shadow(0 9px 9px #0007)!important;animation:dlBagReveal 7s ease-in-out infinite!important;pointer-events:none!important}
+html body main section.dl>.dl-foodbag svg{width:100%;height:100%;display:block}
+html body main section.dl>.dl-foodbag text{font:bold 9px Georgia,serif;letter-spacing:1px;text-anchor:middle;fill:#d9bd79}
+@keyframes dlScooterPass{0%,3%{opacity:0;transform:translateX(0) rotate(-8deg)}8%{opacity:1}39%{opacity:1;transform:translateX(115vw) rotate(5deg)}44%,100%{opacity:0;transform:translateX(125vw) rotate(0)}}
+@keyframes dlMapReveal{0%,42%{opacity:0;transform:perspective(700px) rotateX(62deg) translateY(22px)}50%{opacity:.9;transform:perspective(700px) rotateX(62deg) translateY(0)}54%,72%{opacity:1;transform:perspective(700px) rotateX(62deg) translateY(0)}82%,100%{opacity:0;transform:perspective(700px) rotateX(62deg) translateY(-8px)}}
+@keyframes dlBagReveal{0%,69%{opacity:0;transform:translateY(18px) scale(.9)}78%{opacity:1;transform:translateY(0) scale(1)}84%,94%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(10px) scale(.97)}}
+@media(max-width:700px){html body main section.dl{min-height:230px!important;padding:28px 0!important}html body main section.dl>.dl-content{padding:18px 12px!important}html body main section.dl>.dl-map{left:2%!important;width:155px!important;height:100px!important}html body main section.dl>.dl-foodbag{right:2%!important;width:88px!important;height:110px!important}}
+@media(prefers-reduced-motion:reduce){html body main section.dl>.dl-scooter,html body main section.dl>.dl-map,html body main section.dl>.dl-foodbag{animation:none!important;opacity:1!important;transform:none!important}}
