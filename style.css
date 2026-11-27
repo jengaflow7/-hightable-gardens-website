@@ -164,6 +164,7 @@ header.open .mn{display:block}.mn{position:absolute;left:0;right:0;top:100%;back
  #coinsec .ctx .coin-description{min-height:0}
 }
 
+@media(max-width:700px){
  .menu-chips{justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap;padding:4px 2px 10px;scrollbar-width:thin}
  .menu-chips .tab{flex:0 0 auto}
  .menu-stage{min-height:700px;padding:16px;background-position:center;background-size:cover;border-radius:12px}
