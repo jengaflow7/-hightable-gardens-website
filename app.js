@@ -149,12 +149,20 @@ if(pg==="menu"){
  draw();
  if(hash.indexOf("dish-")===0)setTimeout(function(){var target=document.getElementById(hash);if(target)target.scrollIntoView({behavior:"smooth",block:"center"});},150);
 }
-/* ---------- gallery ---------- */
+/* ---------- gallery: image-led categories and lightbox ---------- 
 if(pg==="gallery"){
- $("gal").innerHTML=C.photos.map(function(p,i){return '<img src="'+cmsAsset(p)+'" alt="Hightable Gardens photo '+(i+1)+'" loading="lazy">'}).join("");
+ var galleryRows=(groups.gallery||[]).map(function(row){var d=row.data||{};return {image:cmsAsset(d.image||d.src||d.file),category:String(d.category||d.album||"The Gardens"),caption:String(d.caption||d.title||"Hightable Gardens")};}).filter(function(x){return x.image;});
+ if(!galleryRows.length)C.photos.forEach(function(p,i){galleryRows.push({image:cmsAsset(p),category:i<4?"Food & Grill":i<8?"The Gardens":"Moments",caption:"Hightable Gardens"});});
+ var albums={};galleryRows.forEach(function(p){(albums[p.category]||(albums[p.category]=[])).push(p);});
+ $("gal").innerHTML=Object.keys(albums).map(function(name){var photos=albums[name];return '<button type="button" class="gallery-album" data-album="'+cmsText(name)+'" style="background-image:linear-gradient(0deg,rgba(8,9,10,.9),rgba(8,9,10,.05) 75%),url('+cmsText(photos[0].image)+')"><span class="gallery-album-meta"><b>'+cmsText(name)+'</b><span>'+photos.length+' '+(photos.length===1?'photo':'photos')+' <i aria-hidden="true">↗</i></span></span></button>';}).join("");
+ var light=document.createElement("div");light.className="gallery-lightbox";light.hidden=true;light.innerHTML='<button type="button" class="gallery-close" aria-label="Close gallery">×</button><button type="button" class="gallery-prev" aria-label="Previous photo">‹</button><figure><img alt=""><figcaption></figcaption></figure><button type="button" class="gallery-next" aria-label="Next photo">›</button>';document.body.appendChild(light);
+ var activeAlbum=[],activeIndex=0,img=light.querySelector("img"),caption=light.querySelector("figcaption");
+ function showPhoto(i){activeIndex=(i+activeAlbum.length)%activeAlbum.length;img.src=activeAlbum[activeIndex].image;img.alt=activeAlbum[activeIndex].caption;caption.textContent=activeAlbum[activeIndex].caption;}
+ $("gal").addEventListener("click",function(e){var b=e.target.closest("[data-album]");if(!b)return;activeAlbum=albums[b.getAttribute("data-album")]||[];if(activeAlbum.length){light.hidden=false;document.body.classList.add("gallery-open");showPhoto(0);}});
+ light.addEventListener("click",function(e){if(e.target===light||e.target.closest(".gallery-close")){light.hidden=true;document.body.classList.remove("gallery-open");}else if(e.target.closest(".gallery-next"))showPhoto(activeIndex+1);else if(e.target.closest(".gallery-prev"))showPhoto(activeIndex-1);});
+ document.addEventListener("keydown",function(e){if(light.hidden)return;if(e.key==="Escape"){light.hidden=true;document.body.classList.remove("gallery-open");}if(e.key==="ArrowRight")showPhoto(activeIndex+1);if(e.key==="ArrowLeft")showPhoto(activeIndex-1);});
  var play='<span class="pl"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>';
- $("rls").innerHTML=C.videos.map(function(u,i){if(/\.(mp4|webm)(\?|$)/i.test(u))return '<video controls playsinline preload="metadata" src="'+u+'"></video>';
-  var cv=C.videoCovers[i%C.videoCovers.length];return '<a class="rl" href="'+u+'" target="_blank" rel="noopener" style="background-image:linear-gradient(180deg,rgba(10,10,10,.25),rgba(10,10,10,.8)),url(img/'+cv+')">'+play+"<b>Watch reel</b><small>on "+(/instagram/.test(u)?"Instagram":"TikTok")+"</small></a>"}).join("");
+ $("rls").innerHTML=C.videos.map(function(u,i){if(/\.(mp4|webm)(\?|$)/i.test(u))return '<video controls playsinline preload="metadata" src="'+u+'"></video>';var cv=C.videoCovers[i%C.videoCovers.length];return '<a class="rl" href="'+u+'" target="_blank" rel="noopener" style="background-image:linear-gradient(180deg,rgba(10,10,10,.25),rgba(10,10,10,.8)),url(img/'+cv+')">'+play+"<b>Watch reel</b><small>on "+(/instagram/.test(u)?"Instagram":"TikTok")+"</small></a>"}).join("");
 }
 /* ---------- contact ---------- */
 if(pg==="contact"){
