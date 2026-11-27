@@ -1,0 +1,16 @@
+const COOKIE="hightable_admin";
+const OWNER="jengaflow7",REPO="-hightable-gardens-website",BRANCH="main",PREFIX="assets/cms-uploads/";
+function json(data,status=200){return new Response(JSON.stringify(data),{status,headers:{"content-type":"application/json; charset=utf-8","cache-control":"no-store"}})}
+function hex(bytes){return Array.from(new Uint8Array(bytes),b=>b.toString(16).padStart(2,"0")).join("")}
+async function digest(v){return hex(await crypto.subtle.digest("SHA-256",new TextEncoder().encode(v)))}
+function cookie(request){const raw=request.headers.get("Cookie")||"",item=raw.split(";").map(x=>x.trim()).find(x=>x.startsWith(COOKIE+"="));return item?decodeURIComponent(item.slice(COOKIE.length+1)):""}
+async function auth(request,env){const token=cookie(request);if(!token||!env.DB)return false;return !!await env.DB.prepare("SELECT token_hash FROM cms_admin_sessions WHERE token_hash=? AND expires_at>?").bind(await digest(token),Math.floor(Date.now()/1000)).first()}
+function headers(env){return {Authorization:"Bearer "+env.GITHUB_TOKEN,Accept:"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28"}}
+async function gh(path,env,options={}){return fetch("https://api.github.com/repos/"+OWNER+"/"+REPO+"/contents/"+path.split("/").map(encodeURIComponent).join("/")+"?ref="+BRANCH,{...options,headers:{...headers(env),...(options.headers||{})}})}
+async function onRequest({request,env}){if(request.method!=="POST")return json({error:"Method not allowed."},405);if(!(await auth(request,env)))return json({error:"Authentication required."},401);if(!env.GITHUB_TOKEN)return json({error:"GitHub upload token is not configured. Add GITHUB_TOKEN in Cloudflare Pages secrets."},503);let body;try{body=await request.json()}catch{return json({error:"Invalid JSON."},400)}const path=String(body.path||"");if(!path.startsWith(PREFIX)||path.includes("..")||path.includes("\\")||path.length>240)return json({error:"Only CMS-uploaded images can be removed."},400);
+// Never delete an image still referenced by another CMS record.
+const rows=await env.DB.prepare("SELECT data_json FROM cms_records").all();
+for(const row of rows.results||[]){let data;try{data=JSON.parse(row.data_json||"{}")}catch{continue}const stack=[data];while(stack.length){const v=stack.pop();if(typeof v==="string"&&v===path)return json({ok:true,deleted:false,reason:"Image is still used by another CMS record."});if(Array.isArray(v))stack.push(...v);else if(v&&typeof v==="object")stack.push(...Object.values(v))}}
+const get=await gh(path,env);if(get.status===404)return json({ok:true,deleted:false,reason:"Image was already absent."});if(!get.ok)return json({error:"Could not read image from GitHub ("+get.status+")."},502);let file;try{file=await get.json()}catch{return json({error:"Invalid GitHub response."},502)}
+const del=await fetch("https://api.github.com/repos/"+OWNER+"/"+REPO+"/contents/"+path.split("/").map(encodeURIComponent).join("/"),{method:"DELETE",headers:{...headers(env),"Content-Type":"application/json"},body:JSON.stringify({message:"Remove CMS image "+path,sha:file.sha,branch:BRANCH})});if(!del.ok)return json({error:"GitHub image deletion failed ("+del.status+")."},502);return json({ok:true,deleted:true})}
+export {onRequest};
