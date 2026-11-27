@@ -35,7 +35,7 @@ try{
   var circles=homeDishes.length?homeDishes:(groups.circles||[]).map(function(row){var d=row.data||{};return {image:cmsAsset(d.image||d.photo),title:d.title||"",badge:Object.assign({},d.badge||{},{enabled:true,text:(d.badge&&d.badge.text)||"Featured"}),link:d.link||""};}).filter(function(x){return x.image;});
   if(circles.length){C.orbit=circles.map(function(x){return x.image});C.orbitDetails=circles;}
   var aboutRows=(groups.homepage_content||[]).filter(function(row){return String((row.data||{}).section||"").toLowerCase()==="about";});
-  if(aboutRows.length){var ad=aboutRows[0].data||{};C.aboutContent={title:ad.title||"About Hightable",subtitle:ad.subtitle||"Where memories are made",body:ad.body||"",startDate:ad.start_date||""};C.aboutBookPages=Array.isArray(ad.book_pages)?ad.book_pages:[];var rawAbout=Array.isArray(ad.gallery_images)?ad.gallery_images:String(ad.gallery_images||"").split(/[\n,]+/);C.aboutImages=rawAbout.map(cmsAsset).filter(Boolean);}
+  if(aboutRows.length){var ad=aboutRows[0].data||{};C.aboutContent={title:ad.title||"About Hightable",subtitle:ad.subtitle||"Where memories are made",body:ad.body||""};var rawAbout=Array.isArray(ad.gallery_images)?ad.gallery_images:String(ad.gallery_images||"").split(/[\n,]+/);C.aboutImages=rawAbout.map(cmsAsset).filter(Boolean);}
  }
 }catch(e){/* Existing cfg.js content remains the fallback if CMS is unavailable. */}
 var $=function(i){return document.getElementById(i)},pg=document.body.getAttribute("data-page"),still=matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -93,42 +93,35 @@ if(HX){var hp=document.createElement("div");hp.className="hp";document.body.inse
 /* reveal on scroll */
 var rv=[].slice.call(document.querySelectorAll(".rv"));
 if("IntersectionObserver" in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}})},{threshold:.08});rv.forEach(function(n){io.observe(n)})}else rv.forEach(function(n){n.classList.add("in")});
-/* ---------- home: heritage storybook About section ---------- */
+/* ---------- home: rotating circles + rolling coin ---------- */
 if(pg==="home"){
  var aboutSection=$("about"),aboutData=C.aboutContent||{},aboutTitle=$("aboutTitleText"),aboutSub=$("aboutSubtitle"),aboutBody=$("aboutBody"),aboutLink=$("aboutGalleryLink");
  if(aboutTitle&&aboutData.title)aboutTitle.textContent=aboutData.title;
  if(aboutSub&&aboutData.subtitle)aboutSub.textContent=aboutData.subtitle;
  if(aboutBody&&aboutData.body)aboutBody.textContent=aboutData.body;
  if(aboutLink){aboutLink.textContent="See gallery";aboutLink.href="gallery.html";}
- var book=$("aboutBook"),coverDate=$("aboutBookCoverDate"),bookImage=$("aboutBookImage"),pageTitle=$("aboutBookPageTitle"),pageText=$("aboutBookPageText"),pageCount=$("aboutBookPageCount"),prevBook=$("aboutBookPrev"),nextBook=$("aboutBookNext");
- if(book&&bookImage){
-  var bookImages=(C.aboutImages&&C.aboutImages.length?C.aboutImages:(C.photos&&C.photos.length?C.photos:["garden.jpg"])).map(function(x){return cmsAsset(x)||x;}).filter(Boolean);
-  var cmsPages=Array.isArray(C.aboutBookPages)?C.aboutBookPages:[];
-  var featured={title:aboutData.subtitle||"Where memories are made",text:aboutData.body||"Good food, warm hospitality and moments worth sharing.",image:bookImages[0]||"img/garden.jpg"};
-  var bookPages=[featured].concat(cmsPages.map(function(p){return {title:String(p.title||""),text:String(p.text||p.body||""),image:p.image?cmsAsset(p.image):""};}).filter(function(p){return p.title||p.text||p.image;}));
-  if(aboutData.startDate&&coverDate)coverDate.textContent="Since "+aboutData.startDate;
-  var bookIndex=0,bookTimer=null,bookVisible=false,bookPaused=false,bookOpen=false,bookCoverTimer=null;
-  function setBookPage(index){
-   bookIndex=index;
-   var p=bookPages[index]||featured;
-   pageTitle.textContent=p.title||"Hightable Gardens";
-   pageText.textContent=p.text||"";
-   bookImage.src=p.image||bookImages[index%bookImages.length]||"img/garden.jpg";
-   bookImage.alt=(p.title||"Hightable Gardens")+" story image";
-   pageCount.textContent=index===0?"Featured page":("Page "+index+" of "+(bookPages.length-1));
+ var aboutFrame=$("aboutImageFrame"),aboutImg=$("aboutImage"),prevAbout=$("aboutCarousel")&&$("aboutCarousel").querySelector(".about-prev"),nextAbout=$("aboutCarousel")&&$("aboutCarousel").querySelector(".about-next"),aboutStatus=$("aboutCarouselStatus");
+ if(aboutFrame&&aboutImg){
+  var aboutImages=(C.aboutImages&&C.aboutImages.length?C.aboutImages:(C.photos&&C.photos.length?C.photos:["garden.jpg"])).map(function(x){return cmsAsset(x)||x;}).filter(Boolean);
+  var aboutIndex=0,aboutTimer=null,aboutPaused=false,aboutTouching=false,aboutVisible=false;function aboutImageUrl(path){return path.indexOf("http")===0?path:(path.indexOf("img/")===0?path:"img/"+path);}aboutImg.src=aboutImageUrl(aboutImages[0]);
+  function paintAbout(next,direction){
+   if(!aboutImages.length)return;
+   aboutIndex=(next+aboutImages.length)%aboutImages.length;
+   aboutFrame.classList.remove("about-enter-left","about-enter-right");
+   aboutFrame.classList.add("about-leaving");
+   window.setTimeout(function(){aboutImg.src=aboutImageUrl(aboutImages[aboutIndex]);aboutImg.alt="Hightable Gardens gallery photo "+(aboutIndex+1);aboutFrame.classList.remove("about-leaving");aboutFrame.classList.add(direction==="prev"?"about-enter-left":"about-enter-right");if(aboutStatus)aboutStatus.textContent=(aboutIndex+1)+" / "+aboutImages.length;},480);
   }
-  function stopBook(){if(bookTimer){clearInterval(bookTimer);bookTimer=null;}if(bookCoverTimer){clearTimeout(bookCoverTimer);bookCoverTimer=null;}}
-  function openBook(){book.classList.add("is-open");bookOpen=true;}
-  function closeBook(){book.classList.remove("is-open");bookOpen=false;}
-  function showFeatured(){setBookPage(0);closeBook();}
-  function turnBookPage(){if(!bookVisible||bookPaused||!bookOpen)return;if(bookIndex<bookPages.length-1){book.classList.add("turning");setTimeout(function(){setBookPage(bookIndex+1);book.classList.remove("turning");},520);}else{stopBook();showFeatured();bookCoverTimer=setTimeout(function(){if(bookVisible&&!bookPaused){openBook();setBookPage(0);startBookTimer();}},1800);}}
-  function startBookTimer(){stopBook();if(bookVisible&&!bookPaused&&bookPages.length>1)bookTimer=setInterval(turnBookPage,5000);}
-  function toggleBookPause(){bookPaused=!bookPaused;if(bookPaused)stopBook();else if(bookVisible){openBook();startBookTimer();}}
-  setBookPage(0);showFeatured();
-  if(prevBook)prevBook.addEventListener("click",function(){bookPaused=true;stopBook();if(bookIndex>0){openBook();setBookPage(bookIndex-1);}else showFeatured();});
-  if(nextBook)nextBook.addEventListener("click",function(){bookPaused=true;stopBook();if(bookIndex<bookPages.length-1){openBook();setBookPage(bookIndex+1);}else showFeatured();});
-  book.addEventListener("click",function(e){if(e.target.closest(".about-book-controls"))return;toggleBookPause();});
-  if("IntersectionObserver" in window){new IntersectionObserver(function(entries){bookVisible=entries[0].isIntersecting;if(bookVisible){openBook();startBookTimer();}else stopBook();},{threshold:.35}).observe(aboutSection);}else{bookVisible=true;openBook();startBookTimer();}
+  function stopAboutTimer(){if(aboutTimer){clearInterval(aboutTimer);aboutTimer=null;}}
+  function startAboutTimer(){stopAboutTimer();if(!still&&aboutVisible&&!aboutPaused&&aboutImages.length>1)aboutTimer=setInterval(function(){paintAbout(aboutIndex+1,"next");},4500);}
+  if(aboutStatus)aboutStatus.textContent="1 / "+aboutImages.length;
+  if(prevAbout)prevAbout.addEventListener("click",function(){paintAbout(aboutIndex-1,"prev");startAboutTimer();});
+  if(nextAbout)nextAbout.addEventListener("click",function(){paintAbout(aboutIndex+1,"next");startAboutTimer();});
+  aboutImg.addEventListener("pointerdown",function(){aboutTouching=true;aboutPaused=true;stopAboutTimer();});
+  function releaseAbout(){if(aboutTouching){aboutTouching=false;aboutPaused=false;startAboutTimer();}}
+  aboutImg.addEventListener("pointerup",releaseAbout);aboutImg.addEventListener("pointercancel",releaseAbout);aboutImg.addEventListener("pointerleave",releaseAbout);
+  aboutImg.addEventListener("keydown",function(e){if(e.key===" "||e.key==="Enter"){e.preventDefault();aboutPaused=!aboutPaused;if(aboutPaused)stopAboutTimer();else startAboutTimer();}});
+  aboutImg.tabIndex=0;aboutImg.setAttribute("role","button");aboutImg.setAttribute("aria-label","Press and hold to pause the image slideshow");
+  if("IntersectionObserver" in window){new IntersectionObserver(function(entries){aboutVisible=entries[0].isIntersecting;if(aboutVisible)startAboutTimer();else stopAboutTimer();}).observe(aboutSection);}else{aboutVisible=true;startAboutTimer();}
  }
  if(aboutSection&&aboutTitle&&!still&&"IntersectionObserver" in window){
   var chalkObserver=new IntersectionObserver(function(entries,observer){if(entries[0].isIntersecting){aboutSection.classList.add("about-title-writing");observer.disconnect();}}, {threshold:.35});
