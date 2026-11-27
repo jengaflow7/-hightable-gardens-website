@@ -269,3 +269,54 @@ header.open .mn{display:block}.mn{position:absolute;left:0;right:0;top:100%;back
  #ftr .footer-brand{grid-column:1/-1!important}
  #ftr .footer-nav{grid-template-columns:repeat(2,minmax(90px,1fr))!important;gap:12px!important}
 }
+
+
+/* Explore dropdown: full-width horizontal page links on every screen */
+header{position:sticky}
+header .mn{
+  display:none;
+  position:absolute;
+  z-index:55;
+  top:100%;
+  left:0;
+  right:0;
+  width:100%;
+  padding:14px 22px 18px;
+  background:rgba(20,23,25,.98);
+  border-top:1px solid rgba(255,255,255,.07);
+  border-bottom:1px solid rgba(255,255,255,.1);
+  box-shadow:0 14px 28px rgba(0,0,0,.28);
+  flex-direction:row;
+  flex-wrap:wrap;
+  justify-content:center;
+  align-items:center;
+  gap:8px;
+}
+header.open .mn{display:flex}
+header .mn a{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:10px 16px;
+  border:1px solid transparent;
+  border-radius:999px;
+  color:var(--ink);
+  text-decoration:none;
+  font:500 11px var(--n);
+  letter-spacing:.09em;
+  text-transform:uppercase;
+  white-space:nowrap;
+  transition:background .18s ease,color .18s ease,border-color .18s ease,transform .18s ease;
+}
+header .mn a:hover,
+header .mn a:focus-visible,
+header .mn a:active{
+  background:var(--y);
+  border-color:var(--y);
+  color:#1a1205!important;
+  outline:none;
+}
+@media(max-width:860px){
+  header .mn{padding:12px 14px 16px;gap:7px}
+  header .mn a{padding:9px 12px;font-size:10px}
+}
