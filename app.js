@@ -103,7 +103,7 @@ if(pg==="home"){
  var aboutFrame=$("aboutImageFrame"),aboutImg=$("aboutImage"),prevAbout=$("aboutCarousel")&&$("aboutCarousel").querySelector(".about-prev"),nextAbout=$("aboutCarousel")&&$("aboutCarousel").querySelector(".about-next"),aboutStatus=$("aboutCarouselStatus");
  if(aboutFrame&&aboutImg){
   var aboutImages=(C.aboutImages&&C.aboutImages.length?C.aboutImages:(C.photos&&C.photos.length?C.photos:["garden.jpg"])).map(function(x){return cmsAsset(x)||x;}).filter(Boolean);
-  var aboutIndex=0,aboutTimer=null,aboutPaused=false,aboutTouching=false,aboutVisible=false;function aboutImageUrl(path){return path.indexOf("http")===0?path:(path.indexOf("img/")===0?path:"img/"+path);}aboutImg.src=aboutImageUrl(aboutImages[0]);
+  var aboutIndex=0,aboutTimer=null,aboutPaused=false,aboutTouching=false,aboutVisible=false;function aboutImageUrl(path){return path.indexOf("http")===0||path.indexOf("/")===0?path:(path.indexOf("img/")===0?path:"img/"+path);}aboutImg.src=aboutImageUrl(aboutImages[0]);
   function paintAbout(next,direction){
    if(!aboutImages.length)return;
    aboutIndex=(next+aboutImages.length)%aboutImages.length;
