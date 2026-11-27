@@ -637,3 +637,52 @@ header .mn a:active{
   #about .about-image-frame.about-enter-left,
   #about .about-image-frame.about-enter-right{animation:none!important;opacity:1!important}
 }
+
+
+/* Homepage Open-all-night section: restrained champagne-gold sparkles */
+#coinsec .cwrap{position:relative}
+#coinsec .chk{position:relative}
+#coinsec .coin-eyebrow,
+#coinsec .coin-reserve{position:relative}
+#coinsec .coin-sparkle{
+  color:#D4AF37;
+  font-family:Georgia,serif;
+  font-weight:400;
+  line-height:1;
+  pointer-events:none;
+  user-select:none;
+  text-shadow:0 0 4px rgba(212,175,55,.52),0 0 9px rgba(212,175,55,.26);
+  animation:coinSparkleShine 3.8s ease-in-out infinite;
+}
+#coinsec .coin-sparkle-circle{
+  position:absolute;
+  z-index:4;
+  font-size:12px;
+}
+#coinsec .coin-sparkle-circle.s1{top:12%;right:13%;animation-delay:.25s}
+#coinsec .coin-sparkle-circle.s2{bottom:17%;left:8%;font-size:10px;animation-delay:1.7s}
+#coinsec .line-sparkle{
+  position:absolute;
+  top:50%;
+  font-size:10px;
+  transform:translateY(-50%);
+}
+#coinsec .line-sparkle.l1{left:19%;animation-delay:.6s}
+#coinsec .line-sparkle.l2{left:73%;font-size:9px;animation-delay:2.1s}
+#coinsec .line-sparkle.l3{left:31%;font-size:9px;animation-delay:1.25s}
+#coinsec .line-sparkle.l4{left:82%;animation-delay:2.65s}
+#coinsec .inline-sparkle{
+  display:inline-block;
+  margin-left:7px;
+  font-size:10px;
+  vertical-align:2px;
+}
+#coinsec .coin-reserve .inline-sparkle{margin-left:5px;font-size:9px}
+@keyframes coinSparkleShine{
+  0%,100%{opacity:.48;filter:brightness(.9);transform:scale(.88)}
+  45%{opacity:1;filter:brightness(1.35);transform:scale(1.12)}
+  60%{opacity:.82;filter:brightness(1.08);transform:scale(1)}
+}
+@media(prefers-reduced-motion:reduce){
+  #coinsec .coin-sparkle{animation:none;opacity:.8}
+}
