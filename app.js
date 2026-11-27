@@ -109,10 +109,10 @@ if(pg==="home"){
    aboutIndex=(next+aboutImages.length)%aboutImages.length;
    aboutFrame.classList.remove("about-enter-left","about-enter-right");
    aboutFrame.classList.add("about-leaving");
-   window.setTimeout(function(){aboutImg.src=aboutImageUrl(aboutImages[aboutIndex]);aboutImg.alt="Hightable Gardens gallery photo "+(aboutIndex+1);aboutFrame.classList.remove("about-leaving");aboutFrame.classList.add(direction==="prev"?"about-enter-left":"about-enter-right");if(aboutStatus)aboutStatus.textContent=(aboutIndex+1)+" / "+aboutImages.length;},180);
+   window.setTimeout(function(){aboutImg.src=aboutImageUrl(aboutImages[aboutIndex]);aboutImg.alt="Hightable Gardens gallery photo "+(aboutIndex+1);aboutFrame.classList.remove("about-leaving");aboutFrame.classList.add(direction==="prev"?"about-enter-left":"about-enter-right");if(aboutStatus)aboutStatus.textContent=(aboutIndex+1)+" / "+aboutImages.length;},480);
   }
   function stopAboutTimer(){if(aboutTimer){clearInterval(aboutTimer);aboutTimer=null;}}
-  function startAboutTimer(){stopAboutTimer();if(!still&&aboutVisible&&!aboutPaused&&aboutImages.length>1)aboutTimer=setInterval(function(){paintAbout(aboutIndex+1,"next");},3000);}
+  function startAboutTimer(){stopAboutTimer();if(!still&&aboutVisible&&!aboutPaused&&aboutImages.length>1)aboutTimer=setInterval(function(){paintAbout(aboutIndex+1,"next");},4500);}
   if(aboutStatus)aboutStatus.textContent="1 / "+aboutImages.length;
   if(prevAbout)prevAbout.addEventListener("click",function(){paintAbout(aboutIndex-1,"prev");startAboutTimer();});
   if(nextAbout)nextAbout.addEventListener("click",function(){paintAbout(aboutIndex+1,"next");startAboutTimer();});
