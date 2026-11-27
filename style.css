@@ -364,17 +364,28 @@ header .w{height:78px;gap:18px}header .lg{justify-self:center}header .mb{display
 @media(max-width:700px){.dl .w::after{right:2%;bottom:1%;width:124px;height:118px}}
 @media(prefers-reduced-motion:reduce){.dl .w::after{animation:none!important;opacity:.95!important;transform:none!important}}
 
-/* Final layering fix: true logo on grocery bag, floating behind card copy */
-.dl .w{isolation:isolate}
+/* Delivery card sequence — cleaned final override */
+.dl{position:relative;overflow:hidden;isolation:isolate}
+.dl .w{position:relative;isolation:isolate;z-index:1}
+.dl::before{z-index:0!important;animation:dlBrandedScooter 10s linear infinite!important}
+.dl::after{z-index:0!important;animation:dlCompactMap 10s ease-in-out infinite!important}
 .dl .w::after{
- z-index:0!important;
+ content:"";position:absolute;right:2%;bottom:1%;width:clamp(118px,19vw,190px);height:clamp(112px,18vw,180px);
+ z-index:0;pointer-events:none;filter:drop-shadow(0 7px 10px rgba(0,0,0,.28));
  background-image:
   url("https://raw.githubusercontent.com/jengaflow7/-hightable-gardens-website/premium-experience-upgrade/img/logo.png"),
   url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 230'%3E%3Cpath d='M50 78L65 34L92 64L112 16L139 61L161 29L178 81Z' fill='%235d914a'/%3E%3Cpath d='M65 58Q42 28 58 12Q82 18 89 48Z' fill='%2377ad58'/%3E%3Cpath d='M112 58Q103 23 131 7Q152 30 139 60Z' fill='%2379a94d'/%3E%3Ccircle cx='40' cy='72' r='23' fill='%23e59a35' stroke='%23bd7026' stroke-width='3'/%3E%3Cpath d='M187 71Q168 45 190 27Q214 38 208 63Z' fill='%23c9433d'/%3E%3Cpath d='M30 83L192 83L177 216L45 216Z' fill='%23b88e58' stroke='%238a6338' stroke-width='4'/%3E%3Cpath d='M78 87Q80 45 111 45Q142 45 144 87' fill='none' stroke='%238a6338' stroke-width='9' stroke-linecap='round'/%3E%3C/svg%3E");
- background-position:center 58%,center;
- background-size:44% auto,contain;
- background-repeat:no-repeat;
- opacity:0;animation:dlFoodBag 10s ease-in-out infinite;
+ background-position:center 54%,center;
+ background-size:48% auto,contain;background-repeat:no-repeat;
+ opacity:0;animation:dlFoodBag 10s ease-in-out infinite!important
 }
 .dl .w>*{position:relative;z-index:2}
-@media(max-width:700px){.dl .w::after{background-size:42% auto,contain;background-position:center 58%,center}}
+@media(max-width:700px){
+ .dl::before{left:-25%;top:34%;font-size:54px}
+ .dl::after{left:3%;bottom:4%;width:43%;height:96px}
+ .dl .w::after{right:2%;bottom:1%;width:118px;height:112px;background-size:48% auto,contain}
+}
+@media(prefers-reduced-motion:reduce){
+ .dl::before,.dl::after,.dl .w::after{animation:none!important;opacity:.18!important;transform:none!important}
+ .dl .w::after{opacity:.85!important}
+}
