@@ -409,3 +409,13 @@ header .w{height:78px;gap:18px}header .lg{justify-self:center}header .mb{display
 @keyframes deliveryFoodFloat{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-10px) rotate(2deg)}}
 @media(max-width:700px){.dl::before{top:18%;font-size:56px}.dl::after{right:12px;bottom:6%;font-size:30px}}
 @media(prefers-reduced-motion:reduce){.dl::before,.dl::after{animation:none!important}}
+
+
+/* Delivery card: restore the original small scooter glide, card-to-card diagonal */
+.dl{overflow:hidden!important;}
+.dl::before{content:"🛵"!important;display:block!important;position:absolute!important;left:-44px!important;top:14px!important;font-size:34px!important;line-height:1!important;opacity:0!important;z-index:0!important;filter:drop-shadow(0 4px 5px rgba(0,0,0,.38))!important;animation:dlCornerGlide 8s linear infinite!important;pointer-events:none!important;}
+.dl::after{content:none!important;display:none!important;animation:none!important;}
+.dl .w{overflow:hidden!important;}
+@keyframes dlCornerGlide{0%{left:-44px!important;top:14px!important;opacity:0;transform:rotate(-8deg)}8%{opacity:.82}45%{left:calc(100% - 34px)!important;top:calc(100% - 42px)!important;opacity:.9;transform:rotate(7deg)}55%,100%{left:calc(100% + 44px)!important;top:calc(100% - 28px)!important;opacity:0;transform:rotate(0)}}
+@media(max-width:700px){.dl::before{font-size:28px!important;left:-38px!important;top:12px!important}@keyframes dlCornerGlide{0%{left:-38px!important;top:12px!important;opacity:0;transform:rotate(-8deg)}8%{opacity:.82}45%{left:calc(100% - 28px)!important;top:calc(100% - 34px)!important;opacity:.9;transform:rotate(7deg)}55%,100%{left:calc(100% + 38px)!important;top:calc(100% - 20px)!important;opacity:0;transform:rotate(0)}}}
+@media(prefers-reduced-motion:reduce){.dl::before{animation:none!important;opacity:0!important}}
